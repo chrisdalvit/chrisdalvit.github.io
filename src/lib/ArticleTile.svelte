@@ -47,6 +47,9 @@
     a.article-link {
         text-decoration: none;
         color: black;
+        font-family: "Sometype Mono", monospace;
+        font-optical-sizing: auto;
+        font-style: normal;
     }
 
     a.article-link:hover {
@@ -62,7 +65,7 @@
     }
 
     p {
-        margin-top: 8px;
+        margin-top: 4px;
         margin-bottom: 8px;
     }
 
