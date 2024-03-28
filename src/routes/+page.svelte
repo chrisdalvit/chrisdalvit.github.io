@@ -10,7 +10,16 @@
 
 
 <style>
+    :global(body) {
+        font-family: "Sometype Mono", monospace;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+    }
+    
     p {
         text-align: justify;
+        line-height: 1.5;
+        margin-bottom: 54px;
     }
 </style>
