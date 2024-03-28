@@ -20,7 +20,6 @@
 
 <style>
     div.container {
-        width: 100%;
         height: 128px;
         display: flex;
         background-color: red;

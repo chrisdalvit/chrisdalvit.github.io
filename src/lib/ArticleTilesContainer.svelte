@@ -3,14 +3,8 @@
     import articles from "$lib/example_articles.json"
 </script>
 
-<div class="tiles-container">
+<div>
     {#each articles as article}
         <ArticleTile {article}/> 
     {/each}
 </div>
-
-<style>
-    div.tiles-container {
-        width: 100%;
-    }
-</style>
