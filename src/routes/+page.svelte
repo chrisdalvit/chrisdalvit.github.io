@@ -16,8 +16,8 @@
 <div>
     <ArticleTile article={{
         title: "Sodoku Solver",
-        description: "Theory of my Sudoku solver project",
-        image: "images/cat1.jpeg",
+        description: "Description of my Sudoku solver project",
+        image: "images/sudoku_image.png",
         url: ""
     }} /> 
 </div>
