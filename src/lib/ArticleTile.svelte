@@ -1,6 +1,6 @@
 <script>
     export let article = { title: "", description: "", image: "", url: ""}
-
+    
 </script>
 
 <div class="container">
@@ -22,14 +22,19 @@
     div.container {
         height: 128px;
         display: flex;
-        background-color: red;
         margin-bottom: 16px;
+    }
+
+    div.container:hover {
+        box-shadow: 7px 7px 0px 0px rgba(0, 0, 255, .2);
+        background-color: rgba(0, 0, 255, .05);
+        transition: all 0.2s ease-in-out;
     }
 
     div.content {
         width: 100%;
         height: auto;
-        padding: 16px;
+        margin: 16px;
     }
 
     div.content-description {
@@ -53,7 +58,7 @@
     }
 
     a.article-link:hover {
-        color: white;
+        color: rgba(0, 0, 125, .5);
     }
 
     img {
@@ -88,6 +93,9 @@
             width: 128px;
             overflow: hidden;
             visibility: visible;
+            display: flex;
+            justify-content: center;
+            margin-left: 16px;
         }
     }
 
@@ -96,6 +104,9 @@
             width: 128px;
             overflow: hidden;
             visibility: visible;
+            display: flex;
+            justify-content: center;
+            margin-left: 16px;
         }
     }
 
@@ -104,6 +115,9 @@
             width: 128px;
             overflow: hidden;
             visibility: visible;
+            display: flex;
+            justify-content: center;
+            margin-left: 16px;
         }
     }
 
