@@ -24,4 +24,22 @@
         max-width: 700px;
         padding: 16px;
     }
+
+    a {
+        font-family: "Sometype Mono", monospace;
+        font-optical-sizing: auto;
+        font-style: normal;
+        margin: 12px;
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        color: rgba(0, 0, 255, .5);
+    }
+
+    nav {
+        display: flex;
+        justify-content: end;
+    }
 </style>
