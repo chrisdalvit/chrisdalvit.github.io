@@ -1,13 +1,13 @@
 
 
 <div class="container">
-    <div class="content">
+    <div class="nav-menu">
         <nav>
             <a href="/">Home</a>
             <a href="/about">About</a>
         </nav>
-        <slot></slot>
     </div>
+    <slot></slot>
 </div>
 
 
@@ -18,11 +18,6 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-    }
-
-    div.content {
-        max-width: 700px;
-        padding: 16px;
     }
 
     a {
@@ -36,6 +31,10 @@
 
     a:hover {
         color: rgba(0, 0, 255, .5);
+    }
+
+    div.nav-menu {
+        width: 700px;
     }
 
     nav {
