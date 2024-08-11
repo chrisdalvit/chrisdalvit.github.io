@@ -18,7 +18,7 @@
         title: "Sodoku Solver",
         description: "Description of my Sudoku solver project",
         image: "images/sudoku_image.png",
-        url: ""
+        url: "/sudoku-solver"
     }} /> 
 </div>
 
