@@ -2,13 +2,15 @@
     <div class="article">
         <h1>About Me</h1>
         <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-            It has survived not only five centuries, but also the leap into electronic typesetting, 
-            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
-            containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker 
-            including versions of Lorem Ipsum.
+            I am a Computer Science student from South Tyrol. 
+            Currently, I am pursuing a Master's degree at the University of Trento, 
+            where I specialize in Artificial Intelligence and Computer Vision. Before this, 
+            I earned Bachelor's degrees in Computer Science and Philosophy from the University of Innsbruck. 
+            During my time there, I was particularly interested in logic, formal verification (mainly using Isabelle/HOL), 
+            epistemology, and the philosophy of science.
+        </p>
+        <p>
+            If you'd like to connect, feel free to reach out via email, or you can find me on GitHub and LinkedIn.
         </p>
     </div>
 </div>
@@ -23,7 +25,10 @@
     p {
         text-align: justify;
         line-height: 1.5;
-        margin-bottom: 54px;
+        font-family: "Heebo", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
     }
 
     div.content {
