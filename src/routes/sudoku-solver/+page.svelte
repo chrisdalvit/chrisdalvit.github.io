@@ -17,35 +17,35 @@
             including versions of Lorem Ipsum.
         </p>
         
-        <a class="section-title" href="#overview">Overview</a> 
+        <a id="overview" class="section-title" href="#overview">Overview</a> 
         <pre class="language-python">
             <code>"println(Hello)"</code>
         </pre>
-        <a class="section-title" href="#image-preprocessing">Image Preprocessing</a> 
+        <a id="image-preprocessing" class="section-title" href="#image-preprocessing">Image Preprocessing</a> 
         <p>
             Image Preprocessing
         </p>
-        <a class="section-title" href="#sudoku-detection">Sudoku Detection</a> 
+        <a id="sudoku-detection" class="section-title" href="#sudoku-detection">Sudoku Detection</a> 
         <p>
             Sudoku Detection
         </p>
-        <a class="section-title" href="#cell-extraction">Cell Extraction</a> 
+        <a id="cell-extraction" class="section-title" href="#cell-extraction">Cell Extraction</a> 
         <p>
             Cell Extraction
         </p>
-        <a class="section-title" href="#digit-recognition">Digit Recognition</a> 
+        <a id="digit-recognition" class="section-title" href="#digit-recognition">Digit Recognition</a> 
         <p>
             Digit Recognition
         </p>
-        <a class="section-title" href="#sudoku-solving">Sudoku Solving</a> 
+        <a id="sudoku-solving" class="section-title" href="#sudoku-solving">Sudoku Solving</a> 
         <p>
             Sudoku Solving
         </p>
-        <a class="section-title" href="#solution-projection">Solution Projection</a> 
+        <a id="solution-projection" class="section-title" href="#solution-projection">Solution Projection</a> 
         <p>
             Solution Projection
         </p>
-        <a class="section-title" href="#conclusion">Conclusion</a> 
+        <a id="conclusion" class="section-title" href="#conclusion">Conclusion</a> 
         <p>
             Conclusion
         </p>
