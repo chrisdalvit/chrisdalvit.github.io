@@ -7,7 +7,6 @@
     <div class="article" slot="center">
         <h1>Sudoku Solver</h1>
         <p>
-            <b>Short Description = Abstract</b>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
             when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
@@ -17,35 +16,35 @@
             including versions of Lorem Ipsum.
         </p>
         
-        <a id="overview" class="section-title" href="#overview">Overview</a> 
+        <h3 id="overview" class="section-title">Overview</h3> 
         <pre class="language-python">
             <code>"println(Hello)"</code>
         </pre>
-        <a id="image-preprocessing" class="section-title" href="#image-preprocessing">Image Preprocessing</a> 
+        <h3 id="image-preprocessing" class="section-title">Image Preprocessing</h3> 
         <p>
             Image Preprocessing
         </p>
-        <a id="sudoku-detection" class="section-title" href="#sudoku-detection">Sudoku Detection</a> 
+        <h3 id="sudoku-detection" class="section-title">Sudoku Detection</h3> 
         <p>
             Sudoku Detection
         </p>
-        <a id="cell-extraction" class="section-title" href="#cell-extraction">Cell Extraction</a> 
+        <h3 id="cell-extraction" class="section-title">Cell Extraction</h3> 
         <p>
             Cell Extraction
         </p>
-        <a id="digit-recognition" class="section-title" href="#digit-recognition">Digit Recognition</a> 
+        <h3 id="digit-recognition" class="section-title">Digit Recognition</h3> 
         <p>
             Digit Recognition
         </p>
-        <a id="sudoku-solving" class="section-title" href="#sudoku-solving">Sudoku Solving</a> 
+        <h3 id="sudoku-solving" class="section-title">Sudoku Solving</h3> 
         <p>
             Sudoku Solving
         </p>
-        <a id="solution-projection" class="section-title" href="#solution-projection">Solution Projection</a> 
+        <h3 id="solution-projection" class="section-title">Solution Projection</h3> 
         <p>
             Solution Projection
         </p>
-        <a id="conclusion" class="section-title" href="#conclusion">Conclusion</a> 
+        <h3 id="conclusion" class="section-title">Conclusion</h3> 
         <p>
             Conclusion
         </p>
@@ -60,13 +59,18 @@
         font-style: normal;
     }
 
+    h3 {
+        margin-bottom: 20;
+    }
+
     p {
         font-family: "Heebo", sans-serif;
         font-optical-sizing: auto;
-        font-weight: 400;
+        font-weight: 300;
         font-style: normal;
         text-align: justify;
-        line-height: 1.5;
+        line-height: 1.7rem;
+        margin-top: 0px;
     }
 
     .article {
@@ -83,5 +87,6 @@
         color: black;
         font-weight: bold;
         font-size: 1.5em;
+        margin-top: 40px;
     }
 </style>

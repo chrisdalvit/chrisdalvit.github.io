@@ -37,10 +37,10 @@
     p {
         font-family: "Heebo", sans-serif;
         font-optical-sizing: auto;
-        font-weight: 400;
+        font-weight: 300;
         font-style: normal;
         text-align: justify;
-        line-height: 1.5;
+        line-height: 1.7;
         margin-bottom: 54px;
     }
 

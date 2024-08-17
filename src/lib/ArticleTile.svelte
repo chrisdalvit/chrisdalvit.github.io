@@ -40,7 +40,7 @@
     .content-description {
         font-family: "Heebo", sans-serif;
         font-optical-sizing: auto;
-        font-weight: 400;
+        font-weight: 300;
         font-style: normal;
         height: 48px;
         overflow: hidden;
