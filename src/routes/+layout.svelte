@@ -1,23 +1,18 @@
 
-
 <div class="container">
-    <div class="nav-menu">
-        <nav>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-        </nav>
-    </div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+    </nav>
     <slot></slot>
 </div>
 
 
 <style>
     div.container {
+        width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
     }
 
     a {
@@ -33,12 +28,9 @@
         color: rgba(0, 0, 255, .5);
     }
 
-    div.nav-menu {
-        width: 700px;
-    }
-
     nav {
         display: flex;
         justify-content: end;
+        justify-self: center;
     }
 </style>

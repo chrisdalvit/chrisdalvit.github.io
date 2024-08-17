@@ -19,37 +19,41 @@
 </div>
 
 <style>
-    div.container {
+    .container {
         height: 128px;
         display: flex;
         margin-bottom: 16px;
     }
 
-    div.container:hover {
+    .container:hover {
         box-shadow: 7px 7px 0px 0px rgba(0, 0, 255, .2);
         background-color: rgba(0, 0, 255, .05);
         transition: all 0.2s ease-in-out;
     }
 
-    div.content {
+    .content {
         width: 100%;
         height: auto;
         margin: 16px;
     }
 
-    div.content-description {
+    .content-description {
+        font-family: "Heebo", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
         height: 48px;
         overflow: hidden;
     }
 
-    div.link-container {
+    .link-container {
         display: flex;
         margin-right: 4px;
         justify-content: end;
         justify-self: flex-end;
     }
     
-    a.article-link {
+    .article-link {
         text-decoration: none;
         color: black;
         font-family: "Sometype Mono", monospace;
@@ -57,7 +61,7 @@
         font-style: normal;
     }
 
-    a.article-link:hover {
+    .article-link:hover {
         color: rgba(0, 0, 125, .5);
     }
 
@@ -66,6 +70,9 @@
     }
 
     h2 {
+        font-family: "Sometype Mono", monospace;
+        font-optical-sizing: auto;
+        font-style: normal;
         margin: 0px;
     }
 

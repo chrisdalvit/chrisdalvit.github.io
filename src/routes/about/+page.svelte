@@ -1,5 +1,10 @@
-<div class="content">
-    <div class="article">
+<script>
+    import GirdLayout from "$lib/GirdLayout.svelte";
+
+</script>
+
+<GirdLayout>
+    <div class="content" slot="center">
         <h1>About Me</h1>
         <p>
             I am a Computer Science student from South Tyrol. 
@@ -13,7 +18,7 @@
             If you'd like to connect, feel free to reach out via email, or you can find me on GitHub and LinkedIn.
         </p>
     </div>
-</div>
+</GirdLayout>
 
 <style>
     h1 {
@@ -31,12 +36,7 @@
         font-style: normal;
     }
 
-    div.content {
-        display: grid;
-        flex-direction: row;
-    }
-
-    div.article {
+    .content {
         max-width: 700px;
         padding: 16px;
     }
