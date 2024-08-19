@@ -3,6 +3,10 @@
 
 </script>
 
+<svelte:head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-okaidia.min.css" integrity="sha512-5HvW0a7ihK3ro2KhwEksDHXgIezsTeZybZDIn8d8Y015Ny+t7QWSIjnlCTjFzlK7Klb604HLGjsNqU/i5mJLjQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</svelte:head>
+
 <GirdLayout>
     <div class="article" slot="center">
         <h1>Sudoku Solver</h1>
@@ -17,9 +21,14 @@
         </p>
         
         <h3 id="overview" class="section-title">Overview</h3> 
-        <pre class="language-python">
-            <code>"println(Hello)"</code>
-        </pre>
+        <pre class="language-python"><code class="language-python">
+import argparse
+import os
+
+import cv2 as cv
+import numpy as np
+import torch
+        </code></pre>
         <h3 id="image-preprocessing" class="section-title">Image Preprocessing</h3> 
         <p>
             Image Preprocessing
