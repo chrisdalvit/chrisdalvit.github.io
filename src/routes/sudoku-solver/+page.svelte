@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-okaidia.min.css" integrity="sha512-5HvW0a7ihK3ro2KhwEksDHXgIezsTeZybZDIn8d8Y015Ny+t7QWSIjnlCTjFzlK7Klb604HLGjsNqU/i5mJLjQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" integrity="sha512-kSwGoyIkfz4+hMo5jkJngSByil9jxJPKbweYec/UgS+S1EgE45qm4Gea7Ks2oxQ7qiYyyZRn66A9df2lMtjIsw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </svelte:head>
 
 <GirdLayout>
@@ -22,12 +22,19 @@
         
         <h3 id="overview" class="section-title">Overview</h3> 
         <pre class="language-python"><code class="language-python">
-import argparse
-import os
+def process_sudoku(img, model):
+    prep_img = preprocessing(img)
+    square, corners = find_sudoku_square(prep_img)
+    cells = extract_cells(square)
+    preds = []
+    for c in cells:
+        pred = model(c)
+        preds.append(pred)
 
-import cv2 as cv
-import numpy as np
-import torch
+    sudoku = Sudoku(preds)
+    solution = sudoku.solve()
+    I = draw_digits(img, sudoku, solution, corners)
+    return blend_images(I, img, I)
         </code></pre>
         <h3 id="image-preprocessing" class="section-title">Image Preprocessing</h3> 
         <p>
