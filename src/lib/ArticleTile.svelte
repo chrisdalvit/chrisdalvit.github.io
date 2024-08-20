@@ -13,7 +13,7 @@
             <p>{article.description}</p>
         </div>
         <div class="link-container">
-            <a class="article-link" href={article.url} data-sveltekit-reload>More</a>
+            <a class="article-link" href={article.url} data-sveltekit-reload data-sveltekit-preload-data="hover">More</a>
         </div>
     </div>
 </div>
