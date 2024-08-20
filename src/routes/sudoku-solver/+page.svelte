@@ -1,11 +1,8 @@
 <script>
+    import CodeBox from "$lib/CodeBox.svelte";
     import GirdLayout from "$lib/GirdLayout.svelte";
-
+    import Katex from 'svelte-katex';
 </script>
-
-<svelte:head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" integrity="sha512-kSwGoyIkfz4+hMo5jkJngSByil9jxJPKbweYec/UgS+S1EgE45qm4Gea7Ks2oxQ7qiYyyZRn66A9df2lMtjIsw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</svelte:head>
 
 <GirdLayout>
     <div class="article" slot="center">
@@ -21,7 +18,7 @@
         </p>
         
         <h3 id="overview" class="section-title">Overview</h3> 
-        <pre class="language-python"><code class="language-python">
+        <CodeBox><code>
 def process_sudoku(img, model):
     prep_img = preprocessing(img)
     square, corners = find_sudoku_square(prep_img)
@@ -35,10 +32,11 @@ def process_sudoku(img, model):
     solution = sudoku.solve()
     I = draw_digits(img, sudoku, solution, corners)
     return blend_images(I, img, I)
-        </code></pre>
+        </code></CodeBox>
         <h3 id="image-preprocessing" class="section-title">Image Preprocessing</h3> 
         <p>
             Image Preprocessing
+            <Katex>f : \mathbb{'{R}'}^2 \rightarrow \mathbb{'{R}'}</Katex>
         </p>
         <h3 id="sudoku-detection" class="section-title">Sudoku Detection</h3> 
         <p>
