@@ -88,7 +88,6 @@ def process_sudoku(img, model):
     }
 
     .article {
-        max-width: 700px;
         padding: 16px;
         justify-self: center;
     }

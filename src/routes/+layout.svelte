@@ -1,8 +1,8 @@
 
 <div class="container">
     <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
+        <a href="/" data-sveltekit-reload>Home</a>
+        <a href="/about" data-sveltekit-reload>About</a>
     </nav>
     <slot></slot>
 </div>

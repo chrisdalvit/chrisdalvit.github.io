@@ -12,8 +12,52 @@
 </div>
 
 <style>
-    div.frame {
-        display: grid;
-        grid-template-columns: auto minmax(auto, 700px) auto;
+    @media only screen and (min-width: 600px) {
+        .frame {
+            width: 100%;
+        }
+
+        .left {
+            display: none;
+        }
+
+        .right {
+            display: none;
+        }
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .frame {
+            width: 100%;
+        }
+
+        .left {
+            display: none;
+        }
+
+        .right {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        .frame {
+            display: grid;
+            grid-template-columns: auto minmax(auto, 700px) auto;
+        }
+    }
+
+    @media only screen and (min-width: 992px) {
+        .frame {
+            display: grid;
+            grid-template-columns: auto minmax(auto, 700px) auto;
+        }
+    }
+
+    @media only screen and (min-width: 1200px) {
+        .frame {
+            display: grid;
+            grid-template-columns: auto minmax(auto, 700px) auto;
+        }
     }
 </style>

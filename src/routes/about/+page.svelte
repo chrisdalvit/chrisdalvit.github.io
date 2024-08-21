@@ -32,7 +32,7 @@
         line-height: 1.5;
         font-family: "Heebo", sans-serif;
         font-optical-sizing: auto;
-        font-weight: 400;
+        font-weight: 300;
         font-style: normal;
     }
 
