@@ -20,7 +20,7 @@
 
 <style>
     .container {
-        height: 128px;
+        height: fit-content;
         display: flex;
         margin-bottom: 16px;
     }
@@ -47,6 +47,11 @@
     }
 
     .link-container {
+        visibility: hidden;
+    }
+
+    .container:hover .link-container {
+        visibility: visible;
         display: flex;
         margin-right: 4px;
         justify-content: end;
