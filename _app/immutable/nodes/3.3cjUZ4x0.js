@@ -1,4 +1,4 @@
-import{s as i,n as l}from"../chunks/scheduler.DypdDQBO.js";import{S as c,i as m,k as u,l as p,m as f,n as d,o as h,p as g,e as y,c as _,q as $,r as a,g as v,d as I}from"../chunks/index.eL-g-Zlo.js";import{G as C}from"../chunks/GirdLayout.DcF75lua.js";function k(s){let e,n=`<h1 class="svelte-1i1er60">About Me</h1> <p class="svelte-1i1er60">I am a Computer Science student from South Tyrol. 
+import{s as i,n as l}from"../chunks/scheduler.DypdDQBO.js";import{S as c,i as m,k as u,l as p,m as f,n as d,o as h,p as g,e as y,c as _,q as $,r as a,g as v,d as I}from"../chunks/index.eL-g-Zlo.js";import{G as C}from"../chunks/GirdLayout.7D6WLCb2.js";function k(s){let e,n=`<h1 class="svelte-1i1er60">About Me</h1> <p class="svelte-1i1er60">I am a Computer Science student from South Tyrol. 
             Currently, I am pursuing a Master&#39;s degree at the University of Trento, 
             where I specialize in Artificial Intelligence and Computer Vision. Before this, 
             I earned Bachelor&#39;s degrees in Computer Science and Philosophy from the University of Innsbruck. 
