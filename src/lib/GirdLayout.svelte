@@ -16,27 +16,11 @@
         .frame {
             width: 100%;
         }
-
-        .left {
-            display: none;
-        }
-
-        .right {
-            display: none;
-        }
     }
     
     @media only screen and (max-width: 600px) {
         .frame {
             width: 100%;
-        }
-
-        .left {
-            display: none;
-        }
-
-        .right {
-            display: none;
         }
     }
 
