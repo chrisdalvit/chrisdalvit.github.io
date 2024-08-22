@@ -11,6 +11,7 @@
 		"deploy": "npm run build && npx gh-pages -d build -t true"
 	},
 	"devDependencies": {
+		"@iconify/svelte": "^4.0.2",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-static": "^3.0.3",
 		"@sveltejs/kit": "^2.0.0",
