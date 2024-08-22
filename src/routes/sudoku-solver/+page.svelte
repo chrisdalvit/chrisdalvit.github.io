@@ -65,6 +65,14 @@ def process_sudoku(img, model):
         <p>
             Conclusion
         </p>
+        <script src="https://utteranc.es/client.js"
+            repo="chrisdalvit/chrisdalvit.github.io"
+            issue-term="pathname"
+            label="blog-post-comment"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
     </div>
 </GirdLayout>
 
