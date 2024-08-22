@@ -7,6 +7,9 @@
 <GirdLayout>
     <div class="article" slot="center">
         <h1>Sudoku Solver</h1>
+        <p class="article-date">
+            22. August 2024
+        </p>
         <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
@@ -71,6 +74,7 @@ def process_sudoku(img, model):
         font-family: "Sometype Mono", monospace;
         font-optical-sizing: auto;
         font-style: normal;
+        margin-bottom: 12px;
     }
 
     h3 {
@@ -90,6 +94,15 @@ def process_sudoku(img, model):
     .article {
         padding: 16px;
         justify-self: center;
+    }
+
+    .article-date {
+        display: flex;
+        justify-content: end;
+        font-weight: 300;
+        font-size: 13px;
+        margin-bottom: 4px;
+        color: gray;
     }
 
     .section-title {
