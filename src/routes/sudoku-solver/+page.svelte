@@ -1,26 +1,22 @@
 <script>
+    import ArticleTemplate from "$lib/ArticleTemplate.svelte";
+    import ArticleSection from "$lib/ArticleSection.svelte";
     import CodeBox from "$lib/CodeBox.svelte";
-    import GirdLayout from "$lib/GirdLayout.svelte";
     import Katex from 'svelte-katex';
+    import ArticleAbstract from "$lib/ArticleAbstract.svelte";
 </script>
 
-<GirdLayout>
-    <div class="article" slot="center">
-        <h1>Sudoku Solver</h1>
-        <p class="article-date">
-            22. August 2024
-        </p>
-        <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-            It has survived not only five centuries, but also the leap into electronic typesetting, 
-            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
-            containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker 
-            including versions of Lorem Ipsum.
-        </p>
-        
-        <h3 id="overview" class="section-title">Overview</h3> 
+<ArticleTemplate title="Sudoku Solver" date="22. August 2024">
+    <ArticleAbstract>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+        when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+        It has survived not only five centuries, but also the leap into electronic typesetting, 
+        remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
+        containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker 
+        including versions of Lorem Ipsum.
+    </ArticleAbstract>
+    <ArticleSection title="Overview" id="overview">
         <CodeBox><code>
 def process_sudoku(img, model):
     prep_img = preprocessing(img)
@@ -35,92 +31,42 @@ def process_sudoku(img, model):
     solution = sudoku.solve()
     I = draw_digits(img, sudoku, solution, corners)
     return blend_images(I, img, I)
-        </code></CodeBox>
-        <h3 id="image-preprocessing" class="section-title">Image Preprocessing</h3> 
+        </code></CodeBox>            
+    </ArticleSection>
+    <ArticleSection title="Image Preprocessing" id="image-preprocessing">
         <p>
             Image Preprocessing
             <Katex>f : \mathbb{'{R}'}^2 \rightarrow \mathbb{'{R}'}</Katex>
         </p>
-        <h3 id="sudoku-detection" class="section-title">Sudoku Detection</h3> 
+    </ArticleSection>
+    <ArticleSection title="Sudoku Detection" id="sudoku-detection">
         <p>
-            Sudoku Detection
+            Sudoku Detection    
         </p>
-        <h3 id="cell-extraction" class="section-title">Cell Extraction</h3> 
+    </ArticleSection>
+    <ArticleSection title="Cell Extraction" id="cell-extraction">
         <p>
             Cell Extraction
         </p>
-        <h3 id="digit-recognition" class="section-title">Digit Recognition</h3> 
+    </ArticleSection>
+    <ArticleSection title="Digit Recognition" id="digit-recognition">
         <p>
             Digit Recognition
         </p>
-        <h3 id="sudoku-solving" class="section-title">Sudoku Solving</h3> 
+    </ArticleSection>
+    <ArticleSection title="Sudoku Solving" id="sudoku-solving">
         <p>
             Sudoku Solving
         </p>
-        <h3 id="solution-projection" class="section-title">Solution Projection</h3> 
+    </ArticleSection>
+    <ArticleSection title="Solution Projection" id="solution-projection">
         <p>
             Solution Projection
         </p>
-        <h3 id="conclusion" class="section-title">Conclusion</h3> 
+    </ArticleSection>
+    <ArticleSection title="Conclusion" id="conclusion">
         <p>
             Conclusion
         </p>
-        <script src="https://utteranc.es/client.js"
-            repo="chrisdalvit/chrisdalvit.github.io"
-            issue-term="pathname"
-            label="blog-post-comment"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
-    </div>
-</GirdLayout>
-
-
-<style>
-    h1 {
-        font-family: "Sometype Mono", monospace;
-        font-optical-sizing: auto;
-        font-style: normal;
-        margin-bottom: 12px;
-    }
-
-    h3 {
-        margin-bottom: 20;
-    }
-
-    p {
-        font-family: "Heebo", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 300;
-        font-style: normal;
-        text-align: justify;
-        line-height: 1.7rem;
-        margin-top: 0px;
-    }
-
-    .article {
-        padding: 16px;
-        justify-self: center;
-    }
-
-    .article-date {
-        display: flex;
-        justify-content: end;
-        font-weight: 300;
-        font-size: 13px;
-        margin-bottom: 4px;
-        color: gray;
-    }
-
-    .section-title {
-        font-family: "Sometype Mono", monospace;
-        font-optical-sizing: auto;
-        font-style: normal;
-        text-decoration: none;
-        color: black;
-        font-weight: bold;
-        font-size: 1.5em;
-        margin-top: 40px;
-    }
-</style>
+    </ArticleSection>
+</ArticleTemplate>
