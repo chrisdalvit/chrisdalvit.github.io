@@ -11,7 +11,7 @@
 <style>
     
     h3 {
-        margin-bottom: 10px;
+        margin-bottom: 0px;
     }
 
     :global(p) {
@@ -21,7 +21,33 @@
         font-style: normal;
         text-align: justify;
         line-height: 1.7rem;
-        margin-top: 0px;
+    }
+
+    :global(figure) {
+        display: flex;
+        justify-content: center;
+        flex-flow: column;
+    }
+
+    :global(figcaption) {
+        font-family: "Heebo", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 300;
+        font-style: normal;
+        text-align: center;
+        font-size: small;
+        margin-top: 5px;
+    }
+
+    :global(a) {
+        text-decoration-color: rgb(174, 188, 173);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 2px;
+        color: black;
+    }
+
+    :global(a:hover) {
+        text-decoration-color: #63a563;
     }
 
     .section-title {
