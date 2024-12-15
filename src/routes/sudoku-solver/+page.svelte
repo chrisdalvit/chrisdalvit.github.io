@@ -11,13 +11,13 @@
 
 <ArticleTemplate title="Sudoku Solver" date="22. August 2024">
     <ArticleAbstract>
-        This blog post describes step-by-step how to implement a real-time Sudoku solver in Python using OpenCV and PyTorch. Beside describing the implementation step-by-step, the blog post also aims to explain the theoretical foundations of the applied concepts. Implementing a real-time Sudoku solver is one of the most popular beginner projects in Computer Vision and there already exist many tutorials on the internet. But most tutorials I read don't go into the theoretical details (let me know if I missed a tutorial that does). With this blog post I want to fill this gap. You can also just skip the mathematical stuff. The theoretical background is not necessarily needed to understand how the Sudoku solver works, but is meant as additional information for who is intrested. I assume you know what a Sudoku puzzle is and have some knowledge of Python. You can check out the code on <a href="https://github.com/chrisdalvit/sudoku-solver" target="_blank">Github</a>. 
+        This blog post describes step-by-step how to implement a real-time Sudoku solver in Python using OpenCV and PyTorch. Beside describing the implementation step-by-step, the blog post also aims to explain the theoretical foundations of the applied concepts. Implementing a real-time Sudoku solver is one of the most popular beginner projects in Computer Vision and there already exist many tutorials on the internet. With this blog I want to present my approach and explain step-by-step how one could implement a Sudoku solver. I assume you know what a Sudoku puzzle is and have some knowledge of Python. You can check out the code on <a href="https://github.com/chrisdalvit/sudoku-solver" target="_blank">Github</a>. 
     </ArticleAbstract>
     <figure>
         <div class="image-container">
-            <img src="/solver_demo.gif" alt="GIF showing an example of the real-time Sudoku solver"/>
+            <img src="sudoku_solver/demo.gif" alt="GIF showing an example of the real-time Sudoku solver"/>
         </div>
-        <figcaption>A demo of the implemented Sudoku solver</figcaption>
+        <figcaption>Demo of the implemented Sudoku solver</figcaption>
     </figure>
 
     
@@ -36,10 +36,7 @@
         preds.append(pred)`
         }/>
         <p>
-            The function takes an image and a neural network as input. The first step is to preprocess the image. The preprocessed image is then used to extract the Sudoku grid. The function <code>find_sudoku_square</code> returns the rectangular image patch containing the Sudoku grid and the coordinates of the grid corners. The corners are later needed for projecting the solution onto the original image. As next step we apply <code>extract_cells</code> to split up the Sudoku grid into single cells. In the loop we classify the digits in the cells (or if they are empty) using the neural network. The collected predicitons are put inside a <code>Sudoku</code> object to compute a solution for the puzzle. <code>draw_digits</code> draws the solution onto the image patch and applies a perspective projection to the patch using the corners. As last step the projected Sudoku solution is blended with the original image.
-        </p>
-        <p>
-            Don't worry if something is not clear yet. We will see how things work in the following sections. At this point we have a rough idea how the Sudoku solver should work. The main point is the we extract the Sudoku gird, split it up, predict the digits, solve the puzzle and project the solution back onto the output image. In case of a video we do this for process for every frame. Obviously, there are many other approaches (and for sure better ones). I will talk about possible improvements in the conclusion. 
+            The function takes an image and a neural network as input. The first step is to preprocess the image. The preprocessed image is then used to extract the Sudoku grid. The function <code>find_sudoku_square</code> returns the rectangular image patch containing the Sudoku grid and the coordinates of the grid corners. The corners are later needed for projecting the solution onto the original image. As next step we apply <code>extract_cells</code> to split up the Sudoku grid into single cells. In the loop we classify the digits in the cells (or if they are empty) using the neural network. The collected predicitons are put inside a <code>Sudoku</code> object to compute a solution for the puzzle. <code>draw_digits</code> draws the solution onto the image patch and applies a perspective projection to the patch using the corners. As last step the projected Sudoku solution is blended with the original image. In case of a video we do this for process for every frame. Obviously, there are many other approaches (and for sure better ones). I will talk about possible improvements in the conclusion. 
         </p>
     </ArticleSection>
 
@@ -47,49 +44,156 @@
         <p>
             Let's take a look at the first step of the whole Sudoku solver: preprocessing. The goal of preprocessing is to apply operations to the image that simplify the other processing steps.
         </p>
-        <Highlight language={python} code={`
-def preprocessing(img):
+        <Highlight language={python} code={
+`def preprocessing(img):
     img = img.copy()
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     max_dim = max(img.shape[0], img.shape[1])
     kernel_size = int(max_dim*0.01) if int(max_dim*0.01) % 2 == 1 else int(max_dim*0.01)+1
     img = cv.GaussianBlur(img, (kernel_size,kernel_size), 0)
     img = cv.adaptiveThreshold(img, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
-    return img
-        `} />
+    return img`
+        } />
         <p>
-            In the preprocessing function does three things. It creates a copy of the input image, converts it to a grayscale image, applies a Gaussian blur and performs Adaptive thresholding. Let's go through the single steps. The function recieves a frame as argument. We can assume that the frame was read using OpenCV. To avoid any problems with shallow copying a copy of the frame is created. My concern at the beginning was that calling the <code>copy</code> method on every frame is computationally to expensive and will impact the real-time performance of the solver. But it turn's out that for my test setup it doesen't (which was an iPhone 12 Mini for video capturing and a MacBook Air with M1 chip for processing). So I decided to stick with creating a deep copy of every frame to make sure the Sudoku solver operates on its own version of the frame. But if you run the solver on a system with limited computation power or little memory, this function call might create problems (although I have not tested if it realy does).
+            The preprocessing function does four things. It creates a copy of the input image, converts it to a grayscale image, applies a Gaussian blur and performs Adaptive thresholding. Let's go through the single steps. The function recieves a frame as argument. We can assume that the frame was read using OpenCV. To avoid any problems with shallow copying I create copy of the whole frame. At the beginning I was worried that calling the <code>copy</code> method on every frame is computationally to expensive and will impact the real-time performance of the solver. But it turn's out that for my test setup it doesen't (which was an iPhone 12 Mini for video capturing and a MacBook Air with M1 chip for processing). So I decided to stick with copying every frame to make sure the Sudoku solver operates on its own version of the image.
         </p>
         <p>
-            After creating a copy of the frame, the frame is converted into a grayscale image. By converting the image to grayscales we reduce the amount of data we need to process. Colors in the image are also not important for detecting the grid, digits or computing the solution and can therefore be ignored.
-            We can convert the image by using OpenCV's <code>cvtColor</code> function. The argument <code>cv.COLOR_BGR2GRAY</code> tells OpenCV to convert a RGB image into a grayscale image. To be precise OpenCV reads images not as RGB but as BGR (if you wonder why, it is because of <a href="https://learnopencv.com/why-does-opencv-use-bgr-color-format/" target="_blank">historical reasons</a>). Since this is only a technical detail, I will continue to reffer to color images as RGB images. Mathematically speaking, each pixel of an RGB image <Katex>I</Katex> can be represented as a vector containing the values for the red, green and blue channel (which usually are between 0 and 255 or 0 and 1)
-            
-            <Katex displayMode>I_{'{x,y}'} = [R~G~B]</Katex>
-
-            A RGB pixel is converted into a corresponding pixel in an grayscale image <Katex>H</Katex> by computing a weighted sum of the red, green and blue channel. OpenCV's <code>cvtColor</code> uses the following conversion (see <a href="https://docs.opencv.org/3.4/de/d25/imgproc_color_conversions.html" target="_blank">here</a>)
-
-            <Katex displayMode>H_{'{x,y}'} = 0.299 \cdot R + 0.587 \cdot G + 0.114 \cdot B</Katex>
-
-            But why does OpenCV use these coefficients? The answer to this is that the human eye is more sensitive to variations in the green color channel, followed by variations in red and blue. Therefore green has the highest weight. The exact coefficients were determined emperically to match human perception and are the same as in the <a href="https://en.wikipedia.org/wiki/Rec._601">Rec. 601 standard</a>. 
+            After creating a copy of the frame, the frame is converted into a grayscale image. By converting the image to grayscales we reduce the amount of data we need to process. Colors in the image are not really important for detecting the grid, digits or computing the solution and can therefore be dropped.
+            We can convert the image by using OpenCV's <code>cvtColor</code> function. The argument <code>cv.COLOR_BGR2GRAY</code> tells OpenCV to convert a RGB image into a grayscale image.
         </p>
         <p>
-            As next step we apply a Gaussian blur to the grayscale image. The idea behind this step is to reduce the noise in the image. Before applying the Gaussian blur we need to compute the size of the blur kernel. In the code above I use a kernel size of 1% of the largest dimension of the input image. The <code>if</code> statement ensures that the kernel size is always odd, since kernel sizes for OpenCV's <code>cv.GaussianBlur</code> function must be odd.
+            As next step we apply a Gaussian blur to the grayscale image. The idea behind this step is to reduce image noise. Because the image at this point can have different sizes I use a kernel size of 1% of the largest dimension of the input image. The <code>if</code> statement ensures that the kernel size is always odd, since kernel sizes for OpenCV's <code>cv.GaussianBlur</code> function must be odd. The kernel is a matrix of weights that follow a two dimensional Gaussian distribution. This means that kernel weights that are closer to the kernel center are higher and weights farther from the center are smaller. Usually there is a parameter <Katex>\sigma</Katex> for adjusting the "width" of the Gaussian distribution. In the code above we set the parameter <code>sigmaX</code> of <code>cv.GaussianBlur</code> to 0, indicating that OpenCV should compute <Katex>\sigma</Katex> based on the kernel size. The blurred image is then the result of computing the convolution of the Gaussian kernel with the image.
         </p>
+        <p>
+            The last step in the image preprocessing is Adaptive Thresholding. Thresholding in general describes the process of converting a grayscale image into a binary image. In other words when we apply thresholding we have to decide for each pixel if we set the pixel to 0 (black) or 255 (white). In conventional thresholding we have a fixed global threshold <Katex>T</Katex>. If <Katex>I_{'{x,y}'} \gt T</Katex> we set the pixel <Katex>I_{'{x,y}'} = 255</Katex> and otherwise <Katex>I_{'{x,y}'} = 0</Katex>. This approach creates problems if we have situations with difficult illumination. Because we use the same threshold for dark and bright areas, our thresholding process might not produce the results we expect. Adaptive Thresholding tries to solve this issue by selecting a threshold based on the pixels neighborhood. OpenCV provides the <code>cv.adaptiveThreshold</code> function. The argument 255 is the value we assign to pixels that are greater then the threshold. The parameter <code>cv.ADAPTIVE_THRESH_GAUSSIAN_C</code> tells OpenCV how it should compute the local threshold. In this case the local threshold is a gaussian-weighted sum of the pixel's neighborhood (similar to the blurring step) minus a constant <Katex>C</Katex>. In my implementation <Katex>C = 2</Katex>. The argument <code>cv.THRESH_BINARY</code> is a threshold type and 11 is the size of the neighborhood we consider for computing the local threshold. For more information about image thresholding you can take a look at <a href="https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html" target="_blank">OpenCV's tutorial</a>. 
+            I picked these values after experimenting a bit with some test imgaes and videos until I was satisfied with the result.
+        </p>
+        <p>After all this theory, let's take a look at the intermidiate output of the preprocessing step for a test image</p>
+        <figure>
+            <div class="image-container">
+                <img class="image-left" src="sudoku_solver/test_image_original.jpg" alt="Original input for the Sudoku solver"/>
+                <img class="image-right" src="sudoku_solver/test_image_preprocessed.jpg" alt="Preprocessed input"/>
+            </div>
+            <figcaption>Image before and after preprocessing</figcaption>
+        </figure>
     </ArticleSection>
     <ArticleSection title="Sudoku Detection" id="sudoku-detection">
         <p>
-            Sudoku Detection    
+            The next task is to use the preprocessed image and to extract the Sudoku grid from it. I do this by extracting the biggest rectangle in the image that has 9 or 81 "components" in it. Why not using Machine Learning or Deep Learining? Mainly for two reasons. Firstly, I was not able to find a dataset for training a ML model. But the more important reason is: Why using a complex ML model, if the simple approach works as well? A well trained ML model would probably be able to detect the Sudoku grid in cases where my approach fails. There is also no garantee that the biggest rectangle in the image with 9 or 81 "components" inside it is actually a Sudoku grid. But I think that the non-ML approach is still good enough for the intended use-cases. So let's take a look on how the Sudoku grid detection can be done with OpenCV
         </p>
+        <Highlight language={python} code={
+`def find_sudoku_square(img):
+    contours, hierarchy = cv.findContours(img, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    for i, c in enumerate(contours):
+        perimeter = cv.arcLength(c, closed=True)
+        approx = cv.approxPolyDP(c, epsilon=0.1*perimeter, closed=True)
+        if len(approx) == 4:
+            num_children = _count_children(i, hierarchy)
+            if num_children == 9 or num_children == 81:
+                return _extract_sudoku_square(img, approx)
+    return None, []`
+        } />
+        <p>
+            The function <code>find_sudoku_square</code> takes as input the preprocessed image from the previous step. The first step is finding the contours in in the image. Up to this point we only have a binary image (an image where every pixel is either 0 or 255). But we have no information about which black pixels are connected and form a shape. We can compute this kind of information from a binary image with OpenCV's <code>cv.findContours</code> function. The second argument <code>cv.RETR_TREE</code> tells OpenCV to not only extract the contours, but also their hierarchical relation in a tree-like structure. <a href="https://learnopencv.com/contour-detection-using-opencv-python-c/#Contour-Hierarchies" target="_blank">This tutorial</a> gives a great overview on how this works and how the hierarchy is represented. The last argument is for defining how the contours should be approximated (approximating contours saves memory). For example lines can be stored as start and end points (see the <a href="https://docs.opencv.org/3.4/d4/d73/tutorial_py_contours_begin.html" target="_blank">documentation</a> for more details). The mode <code>cv.CHAIN_APPROX_SIMPLE</code> performs exactly this kind of approximation by compressing horizontal, vertical, and diagonal segments.  
+        </p>
+        <p>
+            Next we loop over each countour and compute its perimeter with <code>cv.arcLength</code>. The contour is then further approximated with OpenCV's <code>cv.approxPolyDP</code> function (which implements the <a href="https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm" target="_blank">Ramer–Douglas–Peucker algorithm</a>). Why should we compute a second approximation if we already approximated the contours? The main reason is that we have no control over the roughness of the first approximation. When approximating with <code>cv.approxPolyDP</code> we can set the <code>epsilon</code> parameter which controls the approximation error. In the following animation you can see how the Ramer–Douglas–Peucker algorithm works. The approximation error is visualized by the blue margin. You can see that the margin controls if a node is removed or not. 
+        </p>
+        <figure>
+            <div class="image-container">
+                <img class="image-right" src="sudoku_solver/douglas_peucker_demo.gif" alt="GIF showing an animation of the Ramer–Douglas–Peucker algorithm"/>
+            </div>
+            <figcaption>Animation of Ramer–Douglas–Peucker algorithm (taken from Wikipedia)</figcaption>
+        </figure>
+        <p>
+            In my implementation the approximation error is set to 10% of the perimeter. After the second approximation we can check if the contour is a rectangle by checking if it is represented by four points. If the contour is a rectangle, we can use the extracted hierarchy to count how many contours are inside the rectangle. For the counting of the child-contours I have implemented a little helper function <code>_count_children</code>. If the rectangle has 9 or 81 contours in it, I assume that the current rectangle is the Sudoku grid. Finally the detected Sudoku grid is extracted using <code>_extract_sudoku_square</code>. If no contour satisfies the conditions the function returns <code>None</code> to indicate that no Sudoku grid is present in the image. Let's take a closer look at the extraction.
+        </p>
+        <Highlight language={python} code={
+`def _extract_sudoku_square(img, corners):
+    dst_size = 1000
+    src_pts = _sort_corners(corners)
+    dst_pts = np.array([[0,0], [1,0], [0,1], [1,1]]).astype(np.float32) * dst_size
+    M = cv.getPerspectiveTransform(src_pts, dst_pts)
+    return cv.warpPerspective(img, M, (dst_size+10, dst_size+10)), src_pts
+`
+        } />
+        <p>
+            Since we cannot assume that our corners are sorted in some way, I implemented a little helper function <code>_sort_corners</code> for sorting the corners in clockwise order (starting from the upper left corner). We can then map the (possibly) distorted rectangle from the image to a rectified plane. In the implementation we map the source points (the sorted corners from the image) to a 1000 x 1000 pixel plane. Mathematically speaking we need a matrix <Katex>M \in \mathbb{'{R}^{3 \\times 3}'}</Katex> that maps the source coordinates to the destination coordinates
+            <Katex displayMode>
+                \begin{'{bmatrix}'}
+                x_d\\
+                y_d\\
+                s
+                \end{'{bmatrix}'}
+                = M
+                \begin{'{bmatrix}'}
+                x_s\\
+                y_s\\
+                1
+                \end{'{bmatrix}'}
+            </Katex>
+            where <Katex>(x_d,y_d)</Katex> are the destination coordinates, <Katex>(x_s,y_s)</Katex> are the source coordinates and <Katex>s</Katex> is a scale factor. We can compute the matrix <Katex>M</Katex> by passing the source and destination coordinates to OpenCV's <code>cv.getPerspectiveTransform</code>. We can then pass the matrix <Katex>M</Katex> to <code>cv.warpPerspective</code> and apply the perspective transformation. The third argument specifies the size of the output image. I set the output image size to 1010 x 1010 pixel. The 10 additional pixels are added to include the border of the Sudoku grid. If you are intrested in reading more about perspective transformations in OpenCV I can recommend the the <a href="https://docs.opencv.org/4.x/da/d6e/tutorial_py_geometric_transformations.html" target="_blank">documentation</a> or <a href="https://medium.com/analytics-vidhya/opencv-perspective-transformation-9edffefb2143" target="_blank">this tutorial</a>. Finally we return the extracted image patch together with the sorted corners (remember, we need them later to project the solution back on the image). Lets look at the final result of this processing step 
+        </p>
+        <figure>
+            <div class="image-container">
+                <img class="image-left" src="sudoku_solver/test_image_preprocessed.jpg" alt="Preprocessed input"/>
+                <img class="image-right" src="sudoku_solver/test_image_extracted.jpg" alt="Preprocessed input"/>
+            </div>
+            <figcaption>Image before and after Sudoku grid extraction</figcaption>
+        </figure>
     </ArticleSection>
     <ArticleSection title="Cell Extraction" id="cell-extraction">
         <p>
-            Cell Extraction
+            The main goal in the cell extraction step is to split up the detected Sudoku grid into 9 x 9 single cells. The following code performs this operations.
         </p>
+        <Highlight language={python} code={
+`def extract_cells(img):
+    height, width = img.shape
+    cell_height, cell_width = height // 9, width // 9
+    cells = []
+    for i in range(0, height-cell_height, cell_height):
+        for j in range(0, width-cell_width, cell_width):
+            cell = img[i:i+cell_height, j:j+cell_width]
+            cell = _remove_cell_borders(cell)
+            cells.append(cv.resize(cell, (28,28)))
+    return np.array(cells).astype(np.float32) / 255.`
+        }/>
+        <p>
+            You can see that the two <code>for</code> loops are used to divide the Sudoku grid into 9 x 9 equally spaced cells. The function <code>_remove_cell_borders</code> is then applied to every cell. The cell border artifacts are present because the cells are extracted by naively splitting the Sudoku grid into 9 x 9 cells. Therefore it might occur that parts of the black border, that divided the cells is present in the image patches of the individual cells. This border artifacts are removed by only keeping the biggest contour of the cell (which is assumed to be the digit). Removing the border helps alot in boosting the performance of the neural network in the digit recognition step. Finally the cells are resized to 28 x 28 pixels and normalized into values between 0 and 1. Lets look at the output of the cell extraction step
+        </p>
+        <figure>
+            <div class="image-container">
+                <img class="image-left" src="sudoku_solver/test_image_extracted.jpg" alt="Extracted grid"/>
+                <img class="image-right" src="sudoku_solver/test_image_cells.jpg" alt="Extracted cells"/>
+            </div>
+            <figcaption>Image before and after cell extraction</figcaption>
+        </figure>
     </ArticleSection>
     <ArticleSection title="Digit Recognition" id="digit-recognition">
         <p>
-            Digit Recognition
+            At this point we have 81 image patches, that hopefully contain the single digits from the Sudoku grid. But we cannot solve the Sudoku puzzle directly from those patches. First we need to perform digit recognition on the cells. The goal is to extract a numerical representation of the Sudoku grid. I decided to use a neural network for this task. Let's take a look at the code in the <code>process_sudoku</code> function
         </p>
+        <Highlight language={python} code={
+`preds = []
+for c in cells:
+    if is_empty_cell(c):
+        X = torch.tensor(c).unsqueeze(0).unsqueeze(0)
+        preds.append(model(X).argmax(1).item() + 1)
+    else:
+        preds.append(None)`}/>
+        <p>
+            After extracting 81 cells we can iterate over the cells and collect the predictions. For each cell check if it is empty using the utility function <code>is_empty_cell</code>. This utility function checks if more than 3% of the cell center consists of black pixels. The cell center is computed by removing a 5 pixel border on each side of the cell. If more then 97% of the cell center is white, the cell is classified as empty and <code>None</code> is appended to the predictions. In case of a non-empty cell we transform the image patch into a PyTorch tensor with the right dimension (therefore we must use <code>unsqueeze</code> twice). The tensor is then passed to the model which in return outputs values for the digits from 1 to 9. We pick the digit with the highest model response using <code>argmax</code>. Since <code>argmax</code> returns the index of the highest value, we have to add 1 to get the actual digit. The predicted integer can then be appended to the list of predicitons.
+        </p>
+        <p>
+            The model is a fairly simple Convolutional Neural Network (CNN). It consists of two convolutional layers, each followed by the ReLU non-linearity and a MaxPooling layer. The convolution has a kernel size of 5 and the MaxPooling layer has a kernel size of 2. After the second convolutional layer a final linear layer is used to produce an output vector. I trained the model with stochastic gradient descent, a learning rate of <Katex>3 \times 10^{"{-3}"}</Katex> for 10 epochs on the <a href="https://www.kaggle.com/datasets/kshitijdhama/printed-digits-dataset" target="_blank">Printed Digits dataset</a> (resulting in a final accuracy of 96.1%). I first tried to train the model on the MNIST dataset of handwritten digits. After some experimenting I observed that the model trained on handwritten digits performs poorly on Sudoku images with printed images. Training the model on printed digits significantly improved the performance on real-world Sudoku images. At the end of this part <code>preds</code> contains 81 elements, either being <code>None</code> or an integer between 1 and 9. The first two rows of the example image from the previous sections would be represented as follows
+        </p>
+        <Highlight language={python} code={
+`[
+    8, None, None, None, 1, None, None, None, 9, 
+    None, 5, None, 8, None, 7, None, 1, None,
+    ...
+]`
+        }/>
     </ArticleSection>
     <ArticleSection title="Sudoku Solving" id="sudoku-solving">
         <p>
@@ -111,6 +215,18 @@ def preprocessing(img):
 <style>
     .image-container {
         display: flex; 
+        flex-direction: row;
         justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .image-right {
+        margin-left: 7px;
+        width: 45%;
+    }
+
+    .image-left {
+        width: 45%;
+        margin-right: 7px;
     }
 </style>
