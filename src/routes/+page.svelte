@@ -19,25 +19,25 @@
         <ArticleTile article={{
             title: "Sodoku Solver",
             description: "Detailed step-by-step tutorial on how to build a real-time Sudoku solver",
-            image: "images/sudoku_image.png",
+            image: "sudoku_solver/tile.png",
             url: "/sudoku-solver"
         }} /> 
         <ArticleTile article={{
             title: "GPU Matrix Transposition",
             description: "Description of my Sudoku solver project",
-            image: "images/sudoku_image.png",
+            image: "sudoku_solver/tile.png",
             url: "/sudoku-solver"
         }} /> 
         <ArticleTile article={{
             title: "GPU Image Convolution",
             description: "Description of my Sudoku solver project",
-            image: "images/sudoku_image.png",
+            image: "sudoku_solver/tile.png",
             url: "/sudoku-solver"
         }} /> 
         <ArticleTile article={{
             title: "Zeckendorf's Theorem in Isabelle/HOL",
             description: "Description of my Sudoku solver project",
-            image: "images/sudoku_image.png",
+            image: "sudoku_solver/tile.png",
             url: "/sudoku-solver"
         }} /> 
     </div>      
