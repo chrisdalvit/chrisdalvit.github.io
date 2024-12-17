@@ -6,6 +6,9 @@
 
 <GirdLayout>
     <div class="overview" slot="center">
+        <div class="ufo-container">
+            <img class="ufo" src="favicon.png" alt="UFO icon"/>
+        </div>
         <h1 class="title">Hi!</h1>
         <p>
             I'm Christian. Somehow, you've landed on my small corner of the internet. Here, I share my projects and thoughts about stuff that interest me. Feel free to explore and connect with me!
@@ -38,5 +41,19 @@
 
     .overview {
         padding: 16px;
+        padding-top: 32px;
+    }
+
+    .ufo {
+        width: 100px; 
+        position: absolute; 
+        margin-top: -40px;
+        rotate: 25grad;
+        padding-top: 20px;
+    }
+
+    .ufo-container {
+        display: flex; 
+        justify-content: end;
     }
 </style>
