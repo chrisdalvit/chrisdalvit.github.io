@@ -13,20 +13,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
 		<link href="./_app/immutable/assets/0.s4a-y5vk.css" rel="stylesheet">
-		<link href="./_app/immutable/assets/4.DI6yQ7Qt.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/4.yPlDT_hg.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/GirdLayout.QSv4R-U8.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.BfnjmO5v.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.BehQA-5X.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.DQStVh3x.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.UXCwIpGM.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.aCKaVjxY.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.C6wmPEqU.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.DceFOWXf.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.DoOweq5B.js">
 		<link rel="modulepreload" href="./_app/immutable/nodes/0.YJZwLwPF.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/4.DKjYPMxU.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/4.CRu3oAsR.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/GirdLayout.-MRgU6wh.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/spread.CgU5AtxT.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  <div class="container svelte-1c0zvtr"><nav class="svelte-1c0zvtr" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1c0zvtr">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1c0zvtr">About</a></nav> <div class="frame svelte-q8kqk1"> <div></div>  <div class="article svelte-1nuhqq8" slot="center"><h1 class="svelte-1nuhqq8">Sudoku Solver</h1> <p class="article-date svelte-1nuhqq8">16. November 2024</p> <p class="svelte-uf7wis">In this blog post, I present my implementation of a real-time Sudoku solver in Python using OpenCV and PyTorch. I assume you are familiar with Sudoku puzzles, have some knowledge of Python, and understand basic machine learning concepts, especially in the digit detection section. 
+		<div style="display: contents">  <div class="container svelte-1c0zvtr"><nav class="svelte-1c0zvtr" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1c0zvtr">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1c0zvtr">About</a></nav> <div class="frame svelte-q8kqk1"> <div></div>  <div class="article svelte-1cf99y2" slot="center"><h1 class="svelte-1cf99y2">Sudoku Solver</h1> <p class="article-date svelte-1cf99y2">16. November 2024</p> <p class="svelte-uf7wis">In this blog post, I present my implementation of a real-time Sudoku solver in Python using OpenCV and PyTorch. I assume you are familiar with Sudoku puzzles, have some knowledge of Python, and understand basic machine learning concepts, especially in the digit detection section. 
         I will explain the main code snippets step-by-step in the following sections. The complete project is available on <a href="https://github.com/chrisdalvit/sudoku-solver" target="_blank" data-svelte-h="svelte-1i7n3er">GitHub</a>. Feel free to check it out and contact me if you have any questions or comments. </p> <figure data-svelte-h="svelte-1xoaso9"><div class="image-container svelte-cb38qd"><img src="sudoku_solver/demo.gif" alt="GIF showing an example of the real-time Sudoku solver" class="svelte-cb38qd"></div> <figcaption>Demo of the implemented Sudoku solver</figcaption></figure> <div><h3 id="overview" class="section-title svelte-jv16uh">Overview</h3> <p data-svelte-h="svelte-1w4f0us">Before diving into the details, I think it is a good idea to start with an overview over the whole process. Let&#39;s take a look at the function that basically does all the work (with some edge case handeling removed). The following code snippet processes one frame. Processing a video is then simply calling this function on every frame.</p>  <pre data-language="python" class=" svelte-1w9vok"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-keyword">def</span> <span class="hljs-title function_">process_sudoku</span>(<span class="hljs-params">img, model</span>):
     prep_img = preprocessing(img)
     square, corners = find_sudoku_square(prep_img)
@@ -123,7 +123,7 @@
 			
 			<script>
 				{
-					__sveltekit_oixvhu = {
+					__sveltekit_ok0x3s = {
 						base: new URL(".", location).pathname.slice(0, -1)
 					};
 
@@ -132,8 +132,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.BfnjmO5v.js"),
-						import("./_app/immutable/entry/app.C6wmPEqU.js")
+						import("./_app/immutable/entry/start.DQStVh3x.js"),
+						import("./_app/immutable/entry/app.DceFOWXf.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 4],
