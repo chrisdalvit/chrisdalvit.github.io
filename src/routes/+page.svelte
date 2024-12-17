@@ -8,7 +8,7 @@
     <div class="overview" slot="center">
         <h1 class="title">Hi!</h1>
         <p>
-            I'm Christian. Somehow, you've landed on my small corner of the internet. Here, I share my projects and thoughts about stuff that I'm intrested in. Feel free to explore and connect with me!
+            I'm Christian. Somehow, you've landed on my small corner of the internet. Here, I share my projects and thoughts about stuff that interest me. Feel free to explore and connect with me!
         </p>
         <ArticleTile article={{
             title: "Sodoku Solver",
