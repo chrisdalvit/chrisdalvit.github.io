@@ -16,24 +16,6 @@
             image: "sudoku_solver/tile.png",
             url: "/sudoku-solver"
         }} /> 
-        <ArticleTile article={{
-            title: "GPU Matrix Transposition",
-            description: "Description of my Sudoku solver project",
-            image: "sudoku_solver/tile.png",
-            url: "/sudoku-solver"
-        }} /> 
-        <ArticleTile article={{
-            title: "GPU Image Convolution",
-            description: "Description of my Sudoku solver project",
-            image: "sudoku_solver/tile.png",
-            url: "/sudoku-solver"
-        }} /> 
-        <ArticleTile article={{
-            title: "Zeckendorf's Theorem in Isabelle/HOL",
-            description: "Description of my Sudoku solver project",
-            image: "sudoku_solver/tile.png",
-            url: "/sudoku-solver"
-        }} /> 
     </div>      
 </GirdLayout>
 
