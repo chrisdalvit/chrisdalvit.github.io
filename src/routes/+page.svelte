@@ -12,7 +12,7 @@
         </p>
         <ArticleTile article={{
             title: "Sodoku Solver",
-            description: "Detailed step-by-step tutorial on how to build a real-time Sudoku solver",
+            description: "Step-by-step tutorial on how to build a real-time Sudoku solver",
             image: "sudoku_solver/tile.png",
             url: "/sudoku-solver"
         }} /> 

@@ -45,7 +45,7 @@
     .article {
         padding: 16px;
         justify-self: center;
-        width: 100%;
+        max-width: 700px;
     }
 
     .article-date {
