@@ -13,8 +13,8 @@
 
 <span class="citation-container">
     <div class="info-card">
-        {citation.author} <br/> 
-        "{citation.title}" ({citation.year})
+        "{citation.title}"<br/> 
+        {citation.author}, {citation.year}
     </div>
     <a href="#references">
         [{citation.index}]
