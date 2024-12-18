@@ -441,6 +441,8 @@ void transpose(int size, int *mat){
     .table-container {
         display: flex;
         justify-content: center;
+        max-width: 700px;
+        overflow-x:auto
     }
 
     table {
@@ -449,6 +451,7 @@ void transpose(int size, int *mat){
         font-weight: 300;
         font-style: normal;
         border-collapse: collapse;
+        max-width: 700px;
     }
 
     th {
