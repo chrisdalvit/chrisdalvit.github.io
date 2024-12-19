@@ -16,7 +16,7 @@
         "{citation.title}"<br/> 
         {citation.author}, {citation.year}
     </div>
-    <a href="#references">
+    <a href={citation.link} target="_blank">
         [{citation.index}]
     </a>
 </span>
