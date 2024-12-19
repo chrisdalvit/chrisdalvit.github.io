@@ -18,7 +18,7 @@
             If you'd like to connect, feel free to reach out via email, or you can find me on GitHub and LinkedIn.
         </p>
         <div>
-            <a class="icon-container">
+            <a class="icon-container" href=" ">
                 <Icon icon="mdi:email-outline" width=48 height=48 />
             </a>
             <a class="icon-container" href="https://github.com/chrisdalvit" target="_blank">

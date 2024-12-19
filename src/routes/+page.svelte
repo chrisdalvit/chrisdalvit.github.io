@@ -19,6 +19,18 @@
             image: "sudoku_solver/tile.png",
             url: "/sudoku-solver"
         }} /> 
+        <ArticleTile article={{
+            title: "Efficient Matrix Transpose",
+            description: "Implementation and benchmarking matrix transpose",
+            image: "efficient-matrix-transpose/tile.png",
+            url: "/efficient-matrix-transpose"
+        }} /> 
+        <ArticleTile article={{
+            title: "GPU Matrix Transpose",
+            description: "Implementation and benchmarking of parallelized matrix transpose",
+            image: "gpu-matrix-transpose/tile.png",
+            url: "/gpu-matrix-transpose"
+        }} /> 
     </div>      
 </GirdLayout>
 
