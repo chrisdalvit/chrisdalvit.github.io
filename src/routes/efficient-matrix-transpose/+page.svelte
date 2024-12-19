@@ -226,7 +226,7 @@
 
 <ArticleTemplate title="Efficient Matrix Transpose" date="19. November 2024">
     <ArticleAbstract>
-        In this blog post, we are going to implement and benchmark different in-place algorithms for transposing square matrices. The goal is to optimize the algorithms with respect to speed and throughput, taking into account cache behavior. First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results. The complete project is available on <a href="https://github.com/chrisdalvit/efficient-matrix-transpose" target="_blank">GitHub</a>. Feel free to check it out and contact me if you have any questions or comments.
+        In this blog post, we are going to implement and benchmark different in-place algorithms for transposing square matrices. The goal is to optimize the algorithms with respect to speed and throughput, taking into account cache behavior. First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results. The complete project is available on <a href="https://github.com/chrisdalvit/efficient-matrix-transpose" target="_blank">GitHub</a>. In <a href="/gpu-matrix-transpose" target="_blank">another project</a> I parallelized matrix transpose algorithms for GPU's with CUDA. Feel free to check it out and contact me if you have any questions or comments.
     </ArticleAbstract>
     <ArticleSection title="The Problem" id="the-problem">
         <p>
@@ -423,7 +423,7 @@ void transpose(int size, int *mat){
                     <td>0.033</td>
                     <td>0.033</td>
                 </tr>
-                <caption>Cache metrics for iMac experiments</caption>
+                <caption>Cache metrics for iMac experiments (in billions)</caption>
             </table>
         </div>
         <p>
@@ -432,7 +432,7 @@ void transpose(int size, int *mat){
     </ArticleSection>
     <ArticleSection title="Conclusion" id="conclusion">
         <p>
-            After analyzing various algorithms and metrics, we saw that utilizing blocks can enhance the performance of matrix transposition algorithms. This was demonstrated through the better execution time and effective bandwidth of compiler-optimized versions of the <code>oblivious128</code> implementation. The third algorithm also presents promising directions for parallelization, as each submatrix can be processed independently, offering straightforward potential for parallel execution.
+            After analyzing various algorithms and metrics, we saw that utilizing blocks can enhance the performance of matrix transposition algorithms. This was demonstrated through the better execution time and effective bandwidth of compiler-optimized versions of the <code>oblivious128</code> implementation. The third algorithm also presents promising directions for parallelization, as each submatrix can be processed independently, offering straightforward potential for parallel execution. If you are intrested in more, <a href="/gpu-matrix-transpose" target="_blank">here</a> I parallelized matrix transpose algorithms for GPU's with CUDA.
         </p>
     </ArticleSection>
     <References citations={citations}/>
