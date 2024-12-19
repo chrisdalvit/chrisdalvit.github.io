@@ -215,18 +215,18 @@
 
         // Bandwidth charts
         build_bandwidth_chart('Naive (Macbook)', ctx_bandwidth_macbook_naive, chartsData.bandwidth_macbook_naive.o0, chartsData.bandwidth_macbook_naive.o1, chartsData.bandwidth_macbook_naive.o2, chartsData.bandwidth_macbook_naive.o3, true)
-        build_bandwidth_chart('Naive (Macbook)', ctx_bandwidth_macbook_prefetch, chartsData.bandwidth_macbook_prefetch.o0, chartsData.bandwidth_macbook_prefetch.o1, chartsData.bandwidth_macbook_prefetch.o2, chartsData.bandwidth_macbook_prefetch.o3)
+        build_bandwidth_chart('Prefetch (Macbook)', ctx_bandwidth_macbook_prefetch, chartsData.bandwidth_macbook_prefetch.o0, chartsData.bandwidth_macbook_prefetch.o1, chartsData.bandwidth_macbook_prefetch.o2, chartsData.bandwidth_macbook_prefetch.o3)
         build_bandwidth_chart('Oblivious (Macbook)', ctx_bandwidth_macbook_oblivious, chartsData.bandwidth_macbook_oblivious.o0, chartsData.bandwidth_macbook_oblivious.o1, chartsData.bandwidth_macbook_oblivious.o2, chartsData.bandwidth_macbook_oblivious.o3)
 
         build_bandwidth_chart('Naive (iMac)', ctx_bandwidth_imac_naive, chartsData.bandwidth_imac_naive.o0, chartsData.bandwidth_imac_naive.o1, chartsData.bandwidth_imac_naive.o2, chartsData.bandwidth_imac_naive.o3, true)
-        build_bandwidth_chart('Naive (iMac)', ctx_bandwidth_imac_prefetch, chartsData.bandwidth_imac_prefetch.o0, chartsData.bandwidth_imac_prefetch.o1, chartsData.bandwidth_imac_prefetch.o2, chartsData.bandwidth_imac_prefetch.o3)
+        build_bandwidth_chart('Prefetch (iMac)', ctx_bandwidth_imac_prefetch, chartsData.bandwidth_imac_prefetch.o0, chartsData.bandwidth_imac_prefetch.o1, chartsData.bandwidth_imac_prefetch.o2, chartsData.bandwidth_imac_prefetch.o3)
         build_bandwidth_chart('Oblivious (iMac)', ctx_bandwidth_imac_oblivious, chartsData.bandwidth_imac_oblivious.o0, chartsData.bandwidth_imac_oblivious.o1, chartsData.bandwidth_imac_oblivious.o2, chartsData.bandwidth_imac_oblivious.o3)
     });
 </script>
 
 <ArticleTemplate title="Efficient Matrix Transpose" date="16. November 2024">
     <ArticleAbstract>
-        In this blog post, we are going to implement and benchmark different in-place algorithms for transposing square matrices. The goal is to optimize the algorithms with respect to speed and throughput taking into account cache behaviour. First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results.
+        In this blog post, we are going to implement and benchmark different in-place algorithms for transposing square matrices. The goal is to optimize the algorithms with respect to speed and throughput, taking into account cache behavior. First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results.
         <!-- TODO: add GitHub reference -->
         Feel free to check it out and contact me if you have any questions or comments.
     </ArticleAbstract>
@@ -238,11 +238,19 @@
             A^T_{"{ij}"} = A_{"{ji}"}
         </Katex>
         <p>
-            So all entries are swapped along the matrix diagonal. For simplicity I will assume that matrices have dimensions of <Katex>2^N</Katex> for <Katex>N \in \mathbb{"{N}"}</Katex>. As a result, the implemented algorithms don't need to accommodate changes in the output matrix's shape. I also assume that the matrices are stored and accessed in a row-major memory layout. All considered algorithms are in-place, so no new memory is allocated.
+            So all entries are swapped along the matrix diagonal. For simplicity, I will assume that matrices have dimensions of <Katex>2^N</Katex> for <Katex>N \in \mathbb{"{N}"}</Katex>. As a result, the implemented algorithms don't need to accommodate changes in the output matrix's shape. I also assume that the matrices are stored and accessed in a row-major memory layout. All considered algorithms are in-place, so no new memory is allocated.
         </p>
         <p>
-            While implementing an algorithm that computes the transpose of a matrix is straightforward, coming up with an efficient implementation is quite tricky. In general, leveraging spatial locality (accessing elements that are close by in memory) and temporal locality (access the same element throughout different timesteps) can improve efficiency. Because each element of the matrix is accessed only once, temporal locality cannot be exploited for computing the transposed matrix <Citation citation={citations.chacheEfficient}/>, so spatial locality becomes the only source for improvement. The issue with leveraging spatial locality in matrix transposition is that data is accessed along rows but written along columns, potentially leading to poor cache performance. Algorithms that respect spatial locality in their memory access pattern can benefit from quicker access to cached data.
-        </p>
+            While implementing an algorithm that computes the transpose of a matrix is straightforward, coming up with an efficient implementation is quite tricky. In general, leveraging spatial locality (accessing elements that are close by in memory) and temporal locality (accessing the same element throughout different time steps) can improve efficiency. Because each element of the matrix is accessed only once, temporal locality cannot be exploited for computing the transposed matrix <Citation citation={citations.chacheEfficient}/>, so spatial locality becomes the only source for improvement. The issue with leveraging spatial locality in matrix transposition is that data is accessed along rows but written along columns, potentially leading to poor cache performance. Algorithms that respect spatial locality in their memory access pattern can benefit from quicker access to cached data.
+        </p>        
+        <figure>
+            <div class="image-container">
+                <img src="efficient-matrix-transpose/cache_graphic.png" alt="Cache behavior graphic"/>
+            </div>
+            <figcaption>
+                Data is accessed along rows. After accessing the second element, the first row (yellow part) is loaded into cache. For writing the second element, the second row needs to be loaded into cache. For writing the third element, the third row etc. Therefore, there is no exploitation of spatial locality.
+            </figcaption>
+        </figure>
     </ArticleSection>
     <ArticleSection title="Algorithms" id="algorithms">
         <p>
@@ -290,7 +298,7 @@ void prefetch_transpose_int_matrix(int size, int* mat){
 }`}
         />
         <p>
-            The built-in function <code>__builtin_prefetch</code> can be used to perform prefetching. <code>__builtin_prefetch</code> takes as arguments the address to be prefetched and two optional arguments <code>rw</code> and <code>locality</code>. Setting <code>rw</code> to 1 means preparing the prefetch for write access and setting <code>locality</code> to 1 means that the prefetched data has low temporal locality <Citation citation={citations.gccDocs}/>. The second implementation is referred to as "prefetch"-implementation.
+            The built-in function <code>__builtin_prefetch</code> can be used to perform prefetching. <code>__builtin_prefetch</code> takes as arguments the address to be prefetched and two optional arguments <code>rw</code> and <code>locality</code>. Setting <code>rw</code> to 1 means preparing the prefetch for write access and setting <code>locality</code> to 1 means that the prefetched data has low temporal locality <Citation citation={citations.gccDocs}/>.
         </p>
         <p>
             The third algorithm implements a recursive pattern for matrix transposition. It uses the fact that 
@@ -343,7 +351,7 @@ void transpose(int size, int *mat){
 }`}
         />
         <p>
-            For a matrix size of 128 or smaller the algorithm performs a normal transpose operation. Otherwise, the matrix is split into four submatrices and the function is called recursively. After the transposition of the submatrices, the upper-right and bottom-left quadrants need to be swapped. This algorithm exploits spatial locality as it divides the matrix into sub-matrices that can fit into the cache. The third algorithm also has a reduced I/O complexity of <Katex>\mathcal{"{O}"}(\frac{"{N^2}"}{"{B}"})</Katex> <Citation citation={citations.algoritmica}/>, where <Katex>N</Katex> is the size of the matrix and <Katex>B</Katex> the size of the blocks (i.e. the size of matrices where standard transposition is performed). It then transposes each submatrix, which can be performed more efficiently as the whole submatrix is present in cache. This algorithm also works quite well for large matrices, because they are always reduced to submatrices of sizes that fit into cache. The threshold of 128 for performing standard matrix transposition, was selected because the MacBook Air has an L1 data cache of 65KB. Since each matrix element is an integer having a size of 4 bytes, a submatrix of dimension 128 needs 128*128*4 = 65536 bytes. Therefore one submatrix fits in the L1 data cache, which should result in better performance. I tested the same algorithm for threshold values 32, 64, 128, 256 and 512. The results indicated that the algorithm performed best with a threshold of 128 on the tested architectures.
+            For a matrix size of 128 or smaller the algorithm performs a normal transpose operation. Otherwise, the matrix is split into four submatrices and the function is called recursively. After the transposition of the submatrices, the upper-right and bottom-left quadrants need to be swapped. This algorithm exploits spatial locality as it divides the matrix into sub-matrices that can fit into the cache. The third algorithm also has a reduced I/O complexity of <Katex>\mathcal{"{O}"}(\frac{"{N^2}"}{"{B}"})</Katex> <Citation citation={citations.algoritmica}/>, where <Katex>N</Katex> is the size of the matrix and <Katex>B</Katex> the size of the blocks (i.e. the size of matrices where standard transposition is performed). It then transposes each submatrix, which can be performed more efficiently as the whole submatrix is present in cache. This algorithm also works quite well for large matrices, because they are always reduced to submatrices of sizes that fit into cache. The threshold of 128 for performing standard matrix transposition, was selected because my MacBook Air has an L1 data cache of 65KB. Since each matrix element is an integer having a size of 4 bytes, a submatrix of dimension 128 needs 128*128*4 = 65536 bytes. Therefore, one submatrix fits in the L1 data cache, which should result in better performance. I tested the same algorithm for threshold values 32, 64, 128, 256 and 512. The results indicated that the algorithm performed best with a threshold of 128 on the tested architectures.
         </p>
     </ArticleSection>
     <ArticleSection title="Experiments" id="experiments">
@@ -355,7 +363,7 @@ void transpose(int size, int *mat){
             <li>iMac (2011) having a Intel Core i5 with 2.5GHz and 4 cores, 8GB of RAM, 64KB L1 cache, 1MB L2 cache, 6MB L3 cache and a cacheline size of 64 byte.</li>
         </ul>
         <p>
-            Unfortunately Valgrind is not officially supported for ARM-based Apple computers <Citation citation={citations.valgrindDocs}/> and Open-Source projects working on compatibility for M1 processors are still in the experimental phase <Citation citation={citations.valgrindBug}/>. Therefore it is not possible to provide cache performance data for the MacBook Air experiments. Now let's take a look at the averaged time performance (on the x-axis is the <Katex>\log_2</Katex> of the matrix size)
+            Unfortunately Valgrind is not officially supported for ARM-based Apple computers <Citation citation={citations.valgrindDocs}/> and Open-Source projects working on compatibility for M1 processors are still in the experimental phase <Citation citation={citations.valgrindBug}/>. Therefore it is not possible to provide cache performance data for the MacBook Air experiments. Now let's take a look at the average execution time (on the x-axis is the <Katex>\log_2</Katex> of the matrix size)
         </p>
         <div class="chart-container">
             <canvas class="chart" bind:this={canvas_time_macbook_naive} />
@@ -369,7 +377,13 @@ void transpose(int size, int *mat){
             The third algorithm achieved the highest speedup with optimization flags. It showed a speedup of 7.81 on the MacBook Air and 5.7 on the iMac when comparing non-optimized code to code with <code>-O3</code> enabled for matrix size <Katex>2^{"{14}"}</Katex>.
             On the MacBook Air, the third algorithm gained an additional speedup of 1.46 for matrix size <Katex>2^{"{14}"}</Katex> using <code>-O2</code> and <code>-O3</code> optimizations compared to <code>-O1</code> optimization.
             The second algorithm performs slightly better for large matrices with some optimization enabled, resulting in a speedup of 2.11 on the MacBook Air and 1.73 on the iMac for matrix size <Katex>2^{"{14}"}</Katex>.
-            Enabling optimization flags can be disadvantageous for execution time performance (see <code>naive</code> and <code>naive_prefetch</code> implementations for matrix size <Katex>2^{"{10}"}</Katex>). The following plots show the effective bandwidth of the different algorithms
+            Enabling optimization flags can be disadvantageous for execution time performance (see <code>naive</code> and <code>naive_prefetch</code> implementations for matrix size <Katex>2^{"{10}"}</Katex>). Beside the execution time, I also computed the effective bandwidth
+        </p>
+        <Katex displayMode>
+            B_{"{\\text{eff}}"} = \frac{"{2 \\cdot 4 \\cdot N^2}"}{"T"}
+        </Katex>
+        <p>
+            Where <Katex>4 \cdot N^2</Katex> is the matrix size in bytes (assuming an integer is 4 bytes long). We multiply the matrix size in bytes by 2 because every matrix element is read and written. Finally, we divide by the execution time <Katex>T</Katex>. The effective bandwidth tells us how many bytes we move per execution time. Usually, a higher effective bandwidth is better. The following plots report the effective bandwidth of the different implementations
         </p>
         <div class="chart-container">
             <canvas class="chart" bind:this={canvas_bandwidth_macbook_naive} />
@@ -380,7 +394,7 @@ void transpose(int size, int *mat){
             <canvas class="chart" bind:this={canvas_bandwidth_imac_oblivious} />
         </div>
         <p>
-            It's evident across all graphs that the effective bandwidth decreases as the matrix size increases. This trend arises because the matrix size grows exponentially with a base of 2, while the execution time grows exponentially with a base of roughly 10. Consequently, the execution time increases more rapidly than the matrix size, leading to a decline in effective bandwidth.
+            It's evident across all graphs that the effective bandwidth decreases as the matrix size increases. This trend arises because the matrix size grows exponentially with a base of 2, while the execution time grows exponentially with a base of roughly 10. Consequently, the execution time increases more rapidly than the matrix size, leading to a decline in effective bandwidth. Nevertheless, the third algorithm performs best when optimization is turned on, achieving significantly higher effective bandwidth. In some cases the third algorithm with optimizations achieves 9.95x higher bandwidth compared to the unoptimized version. The third performance metric I measured, was cache performance. In the following table you can see the summary output of the Cachegrind tool for the iMac
         </p>
         <div class="table-container">
             <table>
@@ -411,15 +425,16 @@ void transpose(int size, int *mat){
                     <td>0.033</td>
                     <td>0.033</td>
                 </tr>
+                <caption>Cache metrics for iMac experiments</caption>
             </table>
         </div>
         <p>
-            Cache data reveals distinctive behaviors among implementations. Specifically, the <code>naive</code> and <code>naive_prefetch</code> implementations show similar cache patterns, while the <code>oblivious128</code> implementation stands out with different cache behavior. Comparing cache data across implementations, it's evident that the <code>oblivious128</code> implementation requires approximately twice as many instructions, data reads, and data writes as the <code>naive</code> implementation. The variance could be a result of the extra instructions required for transposing submatrices and copying quadrants in the <code>oblivious128</code> algorithm, leading to a greater overall instruction count. Another notable finding is that the last-level data cache read misses are significantly lower for the <code>oblivious128</code> implementation. This may be due to the improved fit of submatrices utilized in the <code>oblivious128</code> algorithm within the cache.
+            The <code>naive</code> and <code>naive_prefetch</code> implementations show similar cache patterns (therefore <code>naive_prefetch</code> is omitted in the table), while the <code>oblivious128</code> implementation stands out with different cache behavior. Comparing cache data across implementations, it's evident that the <code>oblivious128</code> implementation requires approximately twice as many instructions (Ir), data reads (Dr), and data writes (Dw) as the <code>naive</code> implementation. The difference could be a result of the extra instructions required for transposing submatrices and copying quadrants in the <code>oblivious128</code> algorithm, leading to a greater overall instruction count. Another notable finding is that the last-level data cache read misses are significantly lower for the <code>oblivious128</code> implementation. This may be due to the improved fit of submatrices utilized in the <code>oblivious128</code> algorithm within the cache.
         </p>
     </ArticleSection>
     <ArticleSection title="Conclusion" id="conclusion">
         <p>
-            After analyzing various algorithms and metrics, it's evident that utilizing blocks can enhance the performance of matrix transposition algorithms. This was demonstrated through the better execution time and effective bandwidth of compiler-optimized versions of the <code>oblivious128</code> implementation, which incorporates a form of blocking. The third algorithm also presents promising directions for parallelization, as each submatrix can be processed independently, offering straightforward potential for parallel execution.
+            After analyzing various algorithms and metrics, we saw that utilizing blocks can enhance the performance of matrix transposition algorithms. This was demonstrated through the better execution time and effective bandwidth of compiler-optimized versions of the <code>oblivious128</code> implementation. The third algorithm also presents promising directions for parallelization, as each submatrix can be processed independently, offering straightforward potential for parallel execution.
         </p>
     </ArticleSection>
     <References citations={citations}/>
@@ -436,6 +451,24 @@ void transpose(int size, int *mat){
         min-width: 200px; 
         max-width: 220px; 
         max-height: 220px;
+    }
+
+    caption {
+        margin-bottom: 8px;
+    }
+
+    figcaption {
+        display: flex;
+        width: 100%;
+    }
+
+    .image-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    img {
+        width: 180px;
     }
 
     .table-container {
