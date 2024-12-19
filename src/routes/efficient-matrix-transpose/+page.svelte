@@ -224,7 +224,7 @@
     });
 </script>
 
-<ArticleTemplate title="Efficient Matrix Transpose" date="16. November 2024">
+<ArticleTemplate title="Efficient Matrix Transpose" date="19. November 2024">
     <ArticleAbstract>
         In this blog post, we are going to implement and benchmark different in-place algorithms for transposing square matrices. The goal is to optimize the algorithms with respect to speed and throughput, taking into account cache behavior. First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results. The complete project is available on <a href="https://github.com/chrisdalvit/efficient-matrix-transpose" target="_blank">GitHub</a>. Feel free to check it out and contact me if you have any questions or comments.
     </ArticleAbstract>
