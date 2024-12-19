@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>chrisdalvit</title>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Open+Sans:wght@300;400;500;800&family=Parisienne&family=Sometype+Mono:ital,wght@0,400..700;1,400..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Heebo:wght@100..900&family=Parisienne&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link href="./_app/immutable/assets/0.s4a-y5vk.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/ArticleAbstract.B99gQJwy.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/GirdLayout.QSv4R-U8.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/References.BkdofCk6.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.C53IQwPZ.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.kutyB8L9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.szNfeSfx.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.AQrGM_G1.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.Cfc0Kkf2.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.BbSorXJB.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/7.Bpq6GOWW.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/ArticleAbstract.sCiaj9Tk.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/GirdLayout.k9qAq06U.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/References.LnP96_DX.js">
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">  <div class="container svelte-1c0zvtr"><nav class="svelte-1c0zvtr" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1c0zvtr">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1c0zvtr">About</a></nav> <div class="frame svelte-q8kqk1"> <div></div>  <div class="article svelte-1cf99y2" slot="center"><h1 class="svelte-1cf99y2">Formalized Zeckendorf Theorem</h1> <p class="article-date svelte-1cf99y2">19. November 2024</p> <p class="svelte-uf7wis">This blog post presents my formalized proof of the Zeckendorf Theorem using the theorem prover Isabelle/HOL. 
+        First I&#39;m going to describe the original proof and then I will discuss my formalization. The formal proof is available on the <a href="https://www.isa-afp.org/entries/Zeckendorf.html" target="_blank" data-svelte-h="svelte-ntpild">Archive of Formal Proofs</a> and <a href="https://github.com/chrisdalvit/zeckendorf-theorem" target="_blank" data-svelte-h="svelte-1gnx424">GitHub</a>. </p> <div><h3 id="proof" class="section-title svelte-jv16uh">Proof</h3> <p data-svelte-h="svelte-1y1zgp1">Informally, the Zeckendorf theorem states that every positive integer can be represented uniquely as the sum of one or more distinct Fibonacci numbers in such a way that the sum does not include any two consecutive Fibonacci numbers. Fibonacci numbers are a sequence of natural numbers where</p>  <span style="display: none;">F_0 = 0 \qquad F_1 = 1 \qquad F_n  = F_{n-1} + F_{n-2}</span>  <span></span> <p>for  <span style="display: none;">n &gt; 1</span>  <span></span>. More precisely, if  <span style="display: none;">N</span>  <span></span> is any positive integer, there exist positive integers  <span style="display: none;">c_i \ge 2</span>  <span></span>, with  <span style="display: none;">c_{i+1} &gt; c_i+1</span>  <span></span>, such that</p>  <span style="display: none;">N = \sum_{i=0}^k F_{c_i}</span>  <span></span> <p>Let&#39;s now walk through the original proof from the Dutch mathematician Gerrit Lekkerkerker. While the theorem is named by Edouard Zeckendorf who published a paper in 1972, the same result had been published 20 years earlier by Lekkerkerker <span class="citation-container svelte-zlp1p9"><div class="info-card svelte-zlp1p9">&quot;Using the Fibonacci numbers to represent whole numbers&quot;<br> Ron Knott, 2023 (Accessed 19.12.2024)</div> <a href="https://r-knott.surrey.ac.uk/Fibonacci/fibrep.html#section4.2" target="_blank" class="svelte-zlp1p9">[1]</a> </span>.</p> </div> <div><h3 id="isabelle-hol-formalization" class="section-title svelte-jv16uh">Isabelle/HOL Formalization</h3> <p data-svelte-h="svelte-1dvlo9b">Formalization</p> </div> <div><h3 id="references" class="section-title svelte-6imir9" data-svelte-h="svelte-xwi3yf">References</h3> <p>[1] Ron Knott <a href="https://r-knott.surrey.ac.uk/Fibonacci/fibrep.html#section4.2" target="_blank">&quot;Using the Fibonacci numbers to represent whole numbers&quot;</a>, 2023 (Accessed 19.12.2024)</p> </div> <script src="https://utteranc.es/client.js" repo="chrisdalvit/chrisdalvit.github.io" issue-term="pathname" label="blog-post-comment" theme="github-light" crossorigin="anonymous" async data-svelte-h="svelte-1mo85zv"></script></div>  <div></div>  </div> </div> 
+			
+			<script>
+				{
+					__sveltekit_1hfysxn = {
+						base: new URL(".", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.C53IQwPZ.js"),
+						import("./_app/immutable/entry/app.AQrGM_G1.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 7],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+		<!-- 100% privacy-first analytics -->
+		<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+	</body>
+</html>
