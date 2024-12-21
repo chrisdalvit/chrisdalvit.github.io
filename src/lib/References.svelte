@@ -14,7 +14,7 @@
 <div>
     <h3 id="references" class="section-title">References</h3> 
     {#each Object.entries(citations) as [tag, citation]}
-        <p>[{citation.index}] {citation.author} <a href={citation.link} target="_blank">"{citation.title}"</a>, {citation.year}</p>
+        <p>[{citation.index}] {citation.author}. <a href={citation.link} target="_blank">"{citation.title}"</a>, {citation.year}</p>
     {/each}
 </div>
 

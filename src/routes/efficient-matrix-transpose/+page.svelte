@@ -17,7 +17,7 @@
     const citations = {
         chacheEfficient: {
             index: 1, 
-            author: "Siddhartha Chatterjee et al.", 
+            author: "Siddhartha Chatterjee et al", 
             title: "Cache-efficient matrix transposition", 
             year: "2000", 
             link: "https://www.cse.iitd.ac.in/~ssen/conf/hpca.pdf"
