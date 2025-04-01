@@ -14,10 +14,10 @@
             I'm Christian. Somehow, you've landed on my small corner of the internet. Here, I share my projects and thoughts about stuff that interest me. Feel free to explore and connect with me!
         </p>
         <ArticleTile article={{
-            title: "Sodoku Solver",
-            description: "Step-by-step tutorial on how to build a real-time Sudoku solver",
-            image: "sudoku_solver/tile.png",
-            url: "/sudoku-solver"
+            title: "Formalized Zeckendorf Theorem",
+            description: "Verified formalization of Zeckendorf's theorem in Isabelle/HOL",
+            image: "zeckendorf-theorem/tile.png",
+            url: "/zeckendorf-theorem"
         }} /> 
         <ArticleTile article={{
             title: "Efficient Matrix Transpose",
@@ -30,6 +30,12 @@
             description: "Implementation and benchmarking of parallelized matrix transpose",
             image: "gpu-matrix-transpose/tile.png",
             url: "/gpu-matrix-transpose"
+        }} /> 
+        <ArticleTile article={{
+            title: "Sodoku Solver",
+            description: "Step-by-step tutorial on how to build a real-time Sudoku solver",
+            image: "sudoku_solver/tile.png",
+            url: "/sudoku-solver"
         }} /> 
     </div>      
 </GirdLayout>
