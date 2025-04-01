@@ -1,3 +1,23 @@
+<svelte:head>
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Sudoku Solver",
+          "author": {
+            "@type": "Person",
+            "name": "Christian Dalvit",
+            "url": "https://chrisdalvit.github.io"
+          },
+          "datePublished": "2024-11-16",
+          "dateModified": "2025-04-01",
+          "description": "Step-by-step tutorial on how to build a real-time Sudoku solver with Python, OpenCV and PyTorch. Every processing step of a simple real-time Sudoku solver is explained in detail."
+          "mainEntityOfPage": "https://chrisdalvit.github.io/sudoku-solver"
+        }
+    </script>
+    <meta name="keywords" content="Python, Sudoku, Computer Vision, Sudoku Solver, Real Time, Tutorial, OpenCV, PyTorch, Machine Learning"
+</svelte:head>
+
 <script>
     import Highlight from "svelte-highlight";
     import python from "svelte-highlight/languages/python";

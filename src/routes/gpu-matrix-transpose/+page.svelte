@@ -1,3 +1,23 @@
+<svelte:head>
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "BlogPosting",
+          "headline": "GPU Matrix Transpose",
+          "author": {
+            "@type": "Person",
+            "name": "Christian Dalvit",
+            "url": "https://chrisdalvit.github.io"
+          },
+          "datePublished": "2024-11-19",
+          "dateModified": "2025-04-01",
+          "description": "Implementation and benchmarking of parallelized matrix transpose on GPU's with CUDA."
+          "mainEntityOfPage": "https://chrisdalvit.github.io/gpu-matrix-transpose"
+        }
+    </script>
+    <meta name="keywords" content="Matrix transpose, Math, Performance benchmarking, C, GPU, Graphic Processing Unit, CUDA, Nvidia">
+</svelte:head>
+
 <script lang="ts">
     import { onMount } from "svelte";
     import { Chart } from 'chart.js/auto';
