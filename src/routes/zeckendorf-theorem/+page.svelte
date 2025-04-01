@@ -1,3 +1,23 @@
+<svelte:head>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Formalized Zeckendorf Theorem",
+      "author": {
+        "@type": "Person",
+        "name": "Christian Dalvit",
+        "url": "https://chrisdalvit.github.io"
+      },
+      "datePublished": "2025-04-01",
+      "dateModified": "2025-04-01",
+      "description": "Verified formalization of Zeckendorf's theorem in Isabelle/HOL. First the proof af the Zeckendorf theorem is presented. Then the verified formalization of the Zeckendorf theorem in Isabelle/HOL is explained. The formalization is published in the Archive of Formal Proofs."
+      "mainEntityOfPage": "https://chrisdalvit.github.io/zeckendorf-theorem"
+    }
+  </script>
+  <meta name="keywords" content="Math, Isabelle/HOL, Theorem Proving, Verification, Zeckendorf Theorem, Theoretical Computer Science, Archive of Formal Proofs">
+</svelte:head>
+
 <script lang="ts">
     import Katex from 'svelte-katex';
 
