@@ -15,7 +15,7 @@
           "mainEntityOfPage": "https://chrisdalvit.github.io/sudoku-solver"
         }
     </script>
-    <meta name="keywords" content="Python, Sudoku, Computer Vision, Sudoku Solver, Real Time, Tutorial, OpenCV, PyTorch, Machine Learning"
+    <meta name="keywords" content="Python, Sudoku, Computer Vision, Sudoku Solver, Real Time, Tutorial, OpenCV, PyTorch, Machine Learning" />
 </svelte:head>
 
 <script>
