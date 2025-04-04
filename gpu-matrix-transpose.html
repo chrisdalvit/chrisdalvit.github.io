@@ -12,6 +12,19 @@
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="author" content="Christian Dalvit">
+		<meta name="description" content="Christian Dalvit's personal blog showcasing projects and insights on topics like Python development, theorem proving, theoretical computer science, GPU computing." />
+		<meta name="google-site-verification" content="LMBgbt9M9twOggkKPLWb9bBXAEZjm8GA5QDXKITqF8Q" />
+		<script type="application/ld+json">
+			"@context": "https://schema.org",
+			"@type": "Person",
+			"name": "Christian Dalvit",
+			"url": "https://chrisdalvit.github.io",
+			"sameAs": [
+			  "https://www.linkedin.com/in/christian-dalvit-77567828a/",
+			  "https://github.com/chrisdalvit"
+			]
+		</script>
 		
 		<link href="./_app/immutable/assets/0.s4a-y5vk.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/5.DWGjd96e.css" rel="stylesheet">
@@ -19,22 +32,36 @@
 		<link href="./_app/immutable/assets/ArticleAbstract.B99gQJwy.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/GirdLayout.QSv4R-U8.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/References.BkdofCk6.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.CsYnOo_q.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.CY_Tm1DF.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.ISISQ7E8.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.4GZMjcab.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.O2iX-5qP.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.DSH0-jIl.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/5.C94Ts3qN.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.0fqOx9Tm.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.CHtfnAjT.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.ftFGp9fP.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.DQ9vecWO.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.C5M0MhYW.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.yl4-Q9O-.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/5.DRmLhlX6.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/c.BadMgOa7.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/github-dark-dimmed.B-HAtQgm.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/github-dark-dimmed.D89nmFLe.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/spread.CgU5AtxT.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/ArticleAbstract.BSCOzUMK.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/GirdLayout._APpi3oD.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/References.iQ1kD3JO.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/ArticleAbstract.BdCV3YRQ.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/GirdLayout.DLCS1YDq.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/References.BLUW8h8I.js"><!-- HEAD_svelte-on4e17_START --><script type="application/ld+json" data-svelte-h="svelte-1gprjrw">{
+          "@context": "http://schema.org",
+          "@type": "BlogPosting",
+          "headline": "GPU Matrix Transpose",
+          "author": {
+            "@type": "Person",
+            "name": "Christian Dalvit",
+            "url": "https://chrisdalvit.github.io"
+          },
+          "datePublished": "2024-11-19",
+          "dateModified": "2025-04-01",
+          "description": "Implementation and benchmarking of parallelized matrix transpose on GPU's with CUDA."
+          "mainEntityOfPage": "https://chrisdalvit.github.io/gpu-matrix-transpose"
+        }
+    </script><meta name="keywords" content="Matrix transpose, Math, Performance benchmarking, C, GPU, Graphic Processing Unit, CUDA, Nvidia"><!-- HEAD_svelte-on4e17_END -->
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  <div class="container svelte-1c0zvtr"><nav class="svelte-1c0zvtr" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1c0zvtr">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1c0zvtr">About</a></nav> <div class="frame svelte-q8kqk1"> <div></div>  <div class="article svelte-1cf99y2" slot="center"><h1 class="svelte-1cf99y2">GPU Matrix Transpose</h1> <p class="article-date svelte-1cf99y2">19. November 2024</p> <p class="svelte-uf7wis">In one of my <a href="/efficient-matrix-transpose" target="_blank" data-svelte-h="svelte-1v5ad0d">previous blog posts</a> I analyzed the performance of different matrix transpose algorithms on the CPU. In this blog post, we are going to implement and benchmark two matrix transpose algorithms on the Graphics Processing Unit (GPU) using CUDA. The goal is to optimize the algorithms with respect to speed and throughput. 
+		<div style="display: contents">  <div class="container svelte-1c0zvtr"><nav class="svelte-1c0zvtr" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1c0zvtr">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1c0zvtr">About</a></nav>   <div class="frame svelte-q8kqk1"> <div></div>  <div class="article svelte-1cf99y2" slot="center"><h1 class="svelte-1cf99y2">GPU Matrix Transpose</h1> <p class="article-date svelte-1cf99y2">19. November 2024</p> <p class="svelte-uf7wis">In one of my <a href="/efficient-matrix-transpose" target="_blank" data-svelte-h="svelte-1v5ad0d">previous blog posts</a> I analyzed the performance of different matrix transpose algorithms on the CPU. In this blog post, we are going to implement and benchmark two matrix transpose algorithms on the Graphics Processing Unit (GPU) using CUDA. The goal is to optimize the algorithms with respect to speed and throughput. 
         First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results. The complete project is available on <a href="https://github.com/chrisdalvit/gpu-matrix-transpose" target="_blank" data-svelte-h="svelte-1pm58bi">GitHub</a>. Feel free to check it out and contact me if you have any questions or comments. </p> <div><h3 id="cuda-fundamentals" class="section-title svelte-jv16uh">CUDA Fundamentals</h3> <p data-svelte-h="svelte-dzf8vb">GPU&#39;s are great for parallelizing code and thus booting the performance. When performing matrix transposition, the different swaps of matrix elements are independent of each other. Therefore, matrix transpose algorithms could benefit from parallelization. Before I present the algorithms, let me first explain some CUDA fundamentals.</p> <p>In a typical CUDA program, you have some data where you want to perform parallelized computations. The first thing you need to do is to move this data from the host memory (usually your PC&#39;s memory) to the GPU memory. The CUDA API provides this functionality <span class="citation-container svelte-zlp1p9"><div class="info-card svelte-zlp1p9">&quot;CUDA Toolkit Documentation&quot;<br> Nvidia, 2024 (Accessed 19.12.2024)</div> <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__MEMORY.html" target="_blank" class="svelte-zlp1p9">[2]</a> </span>. When your data is on the GPU, you can launch a kernel to perform some kind of computation on the data. A kernel is a special type of function that is executed on the GPU. Typically, a kernel launches multiple threads that all execute the same logic, but usually on different parts of the data. In our case, the data is the matrix, and a kernel could launch multiple threads, each swapping one matrix element.</p> <p data-svelte-h="svelte-13fr0kb">The last important concept to understand the blog post is Nvidia&#39;s GPU memory hierarchy. Before, we mentioned that a kernel launch creates multiple threads. Actually, CUDA provides a way to group threads into thread blocks. When launching a kernel, we need to specify the size of a thread block and the total number of thread blocks. All thread blocks are collected in a grid.</p> <div class="image-container svelte-vkatgz" data-svelte-h="svelte-kwx3n3"><img src="gpu-matrix-transpose/cuda_hierarchy.png" alt="CUDA memory hierarchy" class="svelte-vkatgz"></div> <p>Threads from the same thread block have access to a shared memory which is significantly faster to access then the GPU&#39;s global memory. Therefore, it is essential for good performance to group threads that access the same memory regions into the same thread block. Obviously, I cannot cover all compute capabilities of the CUDA API, but with this knowledge you should be able to understand the following blog post. If you are intrested a better introduction, take a look at Nvidia C++ Programming Guide <span class="citation-container svelte-zlp1p9"><div class="info-card svelte-zlp1p9">&quot;CUDA C++ Programming Guide&quot;<br> Nvidia, 2024 (Accessed 19.12.2024)</div> <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html" target="_blank" class="svelte-zlp1p9">[3]</a> </span>.</p> </div> <div><h3 id="algorithms" class="section-title svelte-jv16uh">Algorithms</h3> <p data-svelte-h="svelte-13ju0xx">The first kernel is a straightforward parallelization of the naive CPU algorithm from the <a href="/efficient-matrix-transpose#algorithms" target="_blank">previous blog posts</a>. Instead of performing the swap of matrix elements in nested loops, each thread swaps one matrix element. Because each swap can be performed independently, no synchronization between threads in needed.</p>  <pre data-language="c" class=" svelte-1w9vok"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-comment">/*
     params:
         size: Size of matrix
@@ -80,7 +107,7 @@ __global__ <span class="hljs-type">void</span> <span class="hljs-title function_
 			
 			<script>
 				{
-					__sveltekit_1ot6vdd = {
+					__sveltekit_y5jxpb = {
 						base: new URL(".", location).pathname.slice(0, -1)
 					};
 
@@ -89,8 +116,8 @@ __global__ <span class="hljs-type">void</span> <span class="hljs-title function_
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.CsYnOo_q.js"),
-						import("./_app/immutable/entry/app.4GZMjcab.js")
+						import("./_app/immutable/entry/start.0fqOx9Tm.js"),
+						import("./_app/immutable/entry/app.DQ9vecWO.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],
