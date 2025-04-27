@@ -16,7 +16,7 @@
         <ArticleTile article={{
             title: "Stereo Reconstruction from Scratch",
             description: "A step-by-step guide to stereo reconstruction",
-            image: "zeckendorf-theorem/tile.png",
+            image: "stereo-reconstruction/tile.png",
             url: "/stereo-reconstruction"
         }} /> 
         <ArticleTile article={{
