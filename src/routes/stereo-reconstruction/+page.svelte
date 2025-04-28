@@ -197,15 +197,6 @@
         flex-direction: row;
         justify-content: center;
         flex-wrap: wrap;
-    }
-
-    .image-right {
-        margin-left: 7px;
-        width: 45%;
-    }
-
-    .image-left {
-        width: 45%;
-        margin-right: 7px;
+        max-width: 100%;
     }
 </style>
