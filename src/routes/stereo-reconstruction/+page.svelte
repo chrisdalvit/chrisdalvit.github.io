@@ -1,3 +1,23 @@
+<svelte:head>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Stereo Reconstruction from Scratch",
+      "author": {
+        "@type": "Person",
+        "name": "Christian Dalvit",
+        "url": "https://chrisdalvit.github.io"
+      },
+      "datePublished": "2025-05-06",
+      "dateModified": "2025-05-06",
+      "description": "Stereo matching is the process of taking two images and constructing a 3D model of the scene by identifying corresponding pixels in both images. The objective is to convert 2D pixel positions into 3D depth information. The theoretical foundation of stereo matching is epipolar geometry. In this project stereo reconstruction was implemented from scratch using Python and Numpy without using OpenCV.",
+      "mainEntityOfPage": "https://chrisdalvit.github.io/stereo-reconstruction",
+    }
+  </script>
+  <meta name="keywords" content="stereo reconstruction, stereo matching, computer vision, epipolar geometry, block matching, semi-global matching, census transform, hamming distance, sub-pixel estimation, python, numpy, point clouds">
+</svelte:head>
+
 <script>
     import Katex from 'svelte-katex';
     import Highlight from "svelte-highlight";
