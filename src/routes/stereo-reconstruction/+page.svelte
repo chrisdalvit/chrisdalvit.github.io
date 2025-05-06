@@ -138,7 +138,7 @@
             u_1 = u_0 + d(u_0,v_0) \qquad v_1 =v_0 
         </Katex>
         <p>
-            where <Katex>d(u_0,v_0)</Katex> is called the disparity at pixel location <Katex>x_0</Katex>. This means that corresponding points can be found along the same horizontal line, by simply adding an offset. Collecting the disparities for all image locations produces the disparity map. For the purposes of this project, it is always assumed that the input images are rectified. Once the disparity <Katex>d(u_0,v_0)</Katex> is known the following projection equation can be rearranged to obtain the depth <Katex>Z</Katex> of the point <Katex>p</Katex>
+            where <Katex>d(u_0,v_0)</Katex> is called the disparity at pixel location <Katex>x_0</Katex>. This means that corresponding points can be found along the same horizontal line, by simply adding an offset. Collecting the disparities for all image locations produces the disparity map. For the purposes of this project, it is always assumed that the input images are rectified. Once the disparity <Katex>d(u_0,v_0)</Katex> is known, the following projection equation can be rearranged to obtain the depth <Katex>Z</Katex> of the point <Katex>p</Katex>
         </p>
         <Katex displayMode>
             d(u_0,v_0) = f \frac{"{B}"}{"{Z}"}
@@ -147,8 +147,8 @@
             Here <Katex>f</Katex> is the focal length (a property of the camera) and <Katex>B</Katex> is the baseline (the distance between the two cameras). The main question is now, how can <Katex>d(u_0,v_0)</Katex> be computed?
         </p>
         <p>
-            As the image capturing process is inherently affected by noise, the exact disparity cannot be computed. Therefore, the disparity needs to be estimated. Various approaches exist for estimating the disparity, discussing all of them is beyond the scope of this blog post. We focus on two popular groups of approaches:
-        </p>
+            As the image capturing process is inherently affected by noise, the exact disparity cannot be computed. Therefore, the disparity needs to be estimated. Various approaches exist for estimating the disparity. Discussing all of them is beyond the scope of this blog post. We focus on two popular groups of approaches:
+        </p>        
         <ul>
             <li>
                 Local methods: These methods aggregate the matching cost by summing or averaging over a support region <Citation citation={citations.szeliski}/>. A cost function <Katex>C(u, v, d)</Katex> is computed over this region, and the estimated disparity <Katex>d^*</Katex> is then the disparity that minimizes the cost
@@ -165,13 +165,13 @@
             </li>
         </ul>
         <p>
-            In the next section one implementation from each group is described in detail. 
+            In the next section, one implementation from each group is described in detail. 
         </p>
     </ArticleSection>
     <ArticleSection title="Block Matching Implementation" id="block-matching-implementation">
         <p>
-            Block matching is one of the simplest local stereo matching approaches. In this project, block matching is implemented by moving a window along the corresponding horizontal line in the right image <Katex>I_1</Katex> for every pixel <Katex>(u,v)</Katex> in the left image <Katex>I_0</Katex>. For every offset <Katex>d \in {"{ \\{0,\\dots,D \\}}"}</Katex>, the cost <Katex>C(u,v,d)</Katex> is computed, where <Katex>D</Katex> is the fixed maximum disparity. In the implementation, the average sum of squared differences is used as the matching cost function
-        </p>
+            Block matching is one of the simplest local stereo matching approaches. In this project, block matching is implemented by moving a window along the corresponding horizontal line in the right image <Katex>I_1</Katex> for every pixel <Katex>(u,v)</Katex> in the left image <Katex>I_0</Katex>. For every offset <Katex>d \in {"{ \\{0,\\dots,D \\}}"}</Katex>, the cost <Katex>C(u,v,d)</Katex> is computed, where <Katex>D</Katex> is the fixed maximum disparity. In the implementation, the mean squared error is used as the matching cost function
+        </p>        
         <Katex displayMode>
             C(u,v,d) = \frac{"{1}"}{"{N}"} \sum_{"{(i,j) \\in R}"} {"{[}"}I_0(u+i,v+j) - I_1(u+i-d,v+j){"{]^2}"}
         </Katex>
@@ -226,13 +226,13 @@
 `
         }/>
     <p>
-        The important stuff happens in the <code>compute</code> method. At the beginning the disparity map is initialized to zeros. Then, for every pixel in the left image, a window is extracted from the left image and the right image. The window is centered at the pixel location <code>(y,x)</code> in the left image and at <code>(y,x-offset)</code> in the right image. The offset is varied from 0 to <code>max_disparity</code>. The sum of squared differences between the two windows is computed and stored in a list. The offset with the lowest cost is then assigned to the disparity map. The final disparity map is scaled to fit into the range of 0-255.
+        The important stuff happens in the <code>compute</code> method. At the beginning, the disparity map is initialized to zeros. Then, for every pixel in the left image, a window is extracted from the left image and the right image. The window is centered at the pixel location <code>(y,x)</code> in the left image and at <code>(y,x-offset)</code> in the right image. The offset is varied from 0 to <code>max_disparity</code>. The sum of squared differences between the two windows is computed and stored in a list. The offset with the lowest cost is then assigned to the disparity map. The final disparity map is scaled to fit into the range of 0-255.
     </p>
     </ArticleSection>
     <ArticleSection title="Semi-Global Matching Implementation" id="semi-global-matching-implementation">
         <p>
             The Semi-Global Matching (SGM) algorithm presented by Hirschmüller <Citation citation={citations.hirschmuller} /> is based on the idea of pixel-wise matching and approximating a global 2D smoothness constraint by combining many 1D constraints <Citation citation={citations.hirschmuller} />. The implementation of the Semi-Global Matching algorithm in this project is inspired by <Citation citation={citations.hirschmuller} />, but it is not identical.
-            Some of the resources I used for my implementation and may be helpful for understanding the algorithm are <Citation citation={citations.sgmWiki} />, <Citation citation={citations.sgmNumpy} />, <Citation citation={citations.sgm} /> and <Citation citation={citations.sgmReddit} />. The distinct processing steps of the implementation are discussed in the following paragraphs.
+            Some of the resources I used for my implementation that may be helpful for understanding the algorithm are <Citation citation={citations.sgmWiki} />, <Citation citation={citations.sgmNumpy} />, <Citation citation={citations.sgm} /> and <Citation citation={citations.sgmReddit} />. The distinct processing steps of the implementation are discussed in the following paragraphs.
         </p>
         <p>
             Instead of matching pixels by their grayscale values, the <i>census transform</i> <Citation citation={citations.census} /> is applied to the left and right images. The census transform computes a bit string for each pixel, which is then used for matching. The census transform generates a bit string based on the relative intensities of the neighboring pixels. If the intensity of a neighboring pixel is less than that of the center pixel, a 1 is added to the bit string; otherwise, a 0 is added. This operation is repeated for all neighboring pixels to create the bit string. The ordering of the bits in the string contains enough information to perform an accurate and fast correspondence operation. The census transform computation is implemented by iterating over the image and calculating the census transform for each pixel. The bit string is stored as an integer.
@@ -252,7 +252,7 @@
             C(u, v, d) = CT_0 (u,v) \oplus CT_1 (u-d,v)
         </Katex>
         <p>
-            Where <Katex>\oplus</Katex> denotes the logical XOR operation, <Katex>CT_0</Katex> and <Katex>CT_1</Katex> are the census-transformed images, and the summation is performed over the bit string. The cost computation step can be implemented by iterating over <Katex>d \in {"\\{1, \\dots, D \\}"}</Katex>, shifting the right image <Katex>CT_1</Katex> by <Katex>d</Katex> pixels, and computing <Katex>C(u, v, d)</Katex> pixel-wise. The NumPy library can be leveraged to perform this computation efficiently. All costs are collected in a cost volume with dimensions <Katex>\mathbb{"{N}"}^{"{H \\times W \\times D}"}</Katex> , where <Katex>H</Katex> and <Katex>W</Katex> are the image dimensions, and <Katex>D</Katex> is the maximal disparity.
+            Here, <Katex>\oplus</Katex> denotes the logical XOR operation, <Katex>CT_0</Katex> and <Katex>CT_1</Katex> are the census-transformed images, and the summation is performed over the bit string. The cost computation step can be implemented by iterating over <Katex>d \in {"\\{1, \\dots, D \\}"}</Katex>, shifting the right image <Katex>CT_1</Katex> by <Katex>d</Katex> pixels, and computing <Katex>C(u, v, d)</Katex> pixel-wise. The NumPy library can be leveraged to perform this computation efficiently. All costs are collected in a cost volume with dimensions <Katex>\mathbb{"{N}"}^{"{H \\times W \\times D}"}</Katex> , where <Katex>H</Katex> and <Katex>W</Katex> are the image dimensions, and <Katex>D</Katex> is the maximal disparity.
         </p>
         <p>
             Pixelwise cost calculation is generally ambiguous and noisy. As mentioned in the <a href="#theory">theory section</a>, minimizing the energy in 2D is NP-hard <Citation citation={citations.szeliski} />. Therefore, Hirschmüller proposes to minimize the energy in 1D for different directions <Katex>r</Katex> and aggregate the costs. This acts as an additional constraint that supports smoothness by penalizing changes in neighboring disparities <Citation citation={citations.hirschmuller} />. This results in a smoother cost volume and hence a smoother disparity map. The path cost <Katex>L_r (p, d)</Katex> for a pixel <Katex>p</Katex> and direction <Katex>r</Katex> is computed by the following expression
@@ -278,7 +278,7 @@
             d^* = \underset{"{d}"}{"{\\text{argmin}}"} ~ S(p,d)
         </Katex>
         <p>
-            for every pixel <Katex>p</Katex>, the final disparity map can be extracted from the cost volume. Now lets take a look at the code. The code for computing the census transform is straightforward 
+            for every pixel <Katex>p</Katex>, the final disparity map can be extracted from the cost volume. Now let's take a look at the code. The code for computing the census transform is straightforward 
         </p>
         <Highlight language={python} code={
 `def census_transform(self, img):
@@ -295,7 +295,7 @@
 `
         }/>
     <p>
-        Here the <code>_get_patch</code> method extracts the patch around the pixel <code>(y,x)</code>. Next the transformed images are used to compute the matching cost using the Hamming distance 
+        Here, the <code>_get_patch</code> method extracts the patch around the pixel <code>(y,x)</code>. Next, the transformed images are used to compute the matching cost using the Hamming distance 
     </p>
     <Highlight language={python} code={
 `def compute_costs(self, left_census_values, right_census_values):
@@ -316,7 +316,7 @@
 `
     }/>
     <p>
-        First the cost volume and the temporary census image are initialized. Then, for every disparity <code>d</code>, the right image is shifted <code>d</code> pixels to the left. The Hamming distance is computed by applying the XOR operation on the two census images. The number of differing bits is then summed up and stored in the cost volume.
+        First, the cost volume and the temporary census image are initialized. Then, for each disparity <code>d</code>, the right image is shifted <code>d</code> pixels to the left. The Hamming distance is computed by applying the XOR operation to the two census images. The number of differing bits is then summed up and stored in the cost volume.
     </p>
     <Highlight language={python} code={
 `def _get_path_cost(self, slice, offset, penalties, other_dim):
@@ -403,19 +403,19 @@ def _aggregate_costs(self, cost_volume):
 `
     }/>
     <p>
-        All pieces are put together in the <code>compute</code> method. In the implementation on GitHub additional scaling of the disparity between 0 and 255 is applied for visualization purposes. Here, the scaling is obmitted for simplicity.
+        All pieces are put together in the <code>compute</code> method. In the implementation on GitHub additional scaling of the disparity between 0 and 255 is applied for visualization purposes. Here, the scaling is omitted for simplicity.
     </p>
     </ArticleSection>
     <ArticleSection title="Sub-Pixel Estimation" id="sub-pixel-estimation">
         <p>
-            So far, all algorithms computed a discrete disparity value <Katex>d \in {"\\{ 1 \\dots D \\}"}</Katex> <Citation citation={citations.szeliski} />. When reconstructing the point cloud from the disparity map, this results in discrete levels of the disparity map. Since this does not correspond to a realistic reconstruction of the scene, sub-pixel estimation can be used to obtain a more continuous scene reconstruction. Sub-pixel estimation uses the costs of the two neighboring disparities <Katex>C(d^*-1)</Katex> and <Katex>C(d^*+1)</Katex> of the optimal disparity <Katex>d^*</Katex> to compute the minimum of the parabola interpolated through the three points
+            So far, all algorithms compute a discrete disparity value <Katex>d \in {"\\{ 1 \\dots D \\}"}</Katex> <Citation citation={citations.szeliski} />. When reconstructing the point cloud from the disparity map, this results in discrete levels of the disparity map. Since this does not correspond to a realistic reconstruction of the scene, sub-pixel estimation can be used to obtain a more continuous scene reconstruction. Sub-pixel estimation uses the costs of the two neighboring disparities <Katex>C(d^*-1)</Katex> and <Katex>C(d^*+1)</Katex> of the optimal disparity <Katex>d^*</Katex> to compute the minimum of the parabola interpolated through the three points.
         </p>
         <Katex displayMode>
             d^*_{"{\\text{ref}}"} = d^* + \frac{"{C(d^*-1) - C(d^*+1)}"}{"{2C(d^*-1) - 4C(d^*) + 2C(d^*+1)}"}
         </Katex>
         <p>
             The refined disparity <Katex>d^*_{"{\\text{ref}}"}</Katex> is then stored in the final disparity map. In the project implementation, sub-pixel estimation can be activated for both algorithms with a command-line argument. 
-        </p>
+        </p>        
         <figure>
             <div class="image-container">
                 <img class="img-450" src="stereo-reconstruction/subpixel.svg" alt="Visualization of subpixel estimation."/>
@@ -460,13 +460,13 @@ def _aggregate_costs(self, cost_volume):
             </figcaption>
         </figure>
         <p>
-            Especially for the mask and the rounded cones, sub-pixel estimation produces more realistic reconstructions of the scene compared to disparity maps without sub-pixel estimation. Apart from a qualitative evaluation, quantitative metrics can be computed as the Middlebury stereo datasets provide ground truths <Citation citation={citations.scharstein2003} />, <Citation citation={citations.scharstein2007} />, <Citation citation={citations.hirschmuellerEvaluation} />. The percentage of bad pixels (PBP) for different algorithms and images. PBP reports the percentage of pixels where the difference between estimated and true disparity is greater than a given threshold <Katex>\tau</Katex>
+            Especially for the mask and the rounded cones, sub-pixel estimation produces more realistic reconstructions of the scene compared to disparity maps without sub-pixel estimation. Apart from a qualitative evaluation, quantitative metrics can be computed as the Middlebury stereo datasets provide ground truths <Citation citation={citations.scharstein2003} />, <Citation citation={citations.scharstein2007} />, <Citation citation={citations.hirschmuellerEvaluation} />. The percentage of bad pixels (PBP) for different algorithms and images is reported. PBP reports the percentage of pixels where the difference between estimated and true disparity is greater than a given threshold <Katex>\tau</Katex>
         </p>
         <Katex displayMode>
             \text{"{PBP}"} = \frac{"{\\sum_{i} \\mathbb{I} \\left( |d_i - d^*_i| > \\tau \\right)}"}{"{H \\times W}"} \times 100
         </Katex>
         <p>
-            The next table reports the PBP for the slected scences and the implemented algorithms. The threshold <Katex>\tau</Katex> is set to 3 pixel.
+            The next table reports the PBP for the selected scences and the implemented algorithms. The threshold <Katex>\tau</Katex> is set to 3 pixels.
         </p>
         <div class="table-container">
             <table>
