@@ -14,6 +14,12 @@
             I'm Christian. Somehow, you've landed on my small corner of the internet. Here, I share my projects and thoughts about stuff that interest me. Feel free to explore and connect with me!
         </p>
         <ArticleTile article={{
+            title: "Stereo Reconstruction from Scratch",
+            description: "A step-by-step guide to stereo reconstruction",
+            image: "stereo-reconstruction/tile.png",
+            url: "/stereo-reconstruction"
+        }} /> 
+        <ArticleTile article={{
             title: "Formalized Zeckendorf Theorem",
             description: "Verified formalization of Zeckendorf's theorem in Isabelle/HOL",
             image: "zeckendorf-theorem/tile.png",
