@@ -431,7 +431,7 @@ def _aggregate_costs(self, cost_volume):
         </p>
         <figure>
             <div class="image-container">
-                <img class="img-600" src="stereo-reconstruction/method_comparison.png" alt="Comparision of the different algorithms."/>
+                <img class="img-600" src="stereo-reconstruction/method_comparison.jpg" alt="Comparision of the different algorithms."/>
             </div>
             <figcaption>
                 <i>Left:</i> Block matching algorithm without sub-pixel estimation. <i>Middle:</i> SGM algorithm without sub-pixel estimation. <i>Right:</i> OpenCV Block matching implementation.
@@ -442,7 +442,7 @@ def _aggregate_costs(self, cost_volume):
         </p>
         <figure>
             <div class="image-container">
-                <img class="img-450" src="stereo-reconstruction/subpixel_comparison.png" alt="Comparision of disparity maps with subpixel estimation and without subpixel estimation."/>
+                <img class="img-450" src="stereo-reconstruction/subpixel_comparison.jpg" alt="Comparision of disparity maps with subpixel estimation and without subpixel estimation."/>
             </div>
             <figcaption>
                 <i>Left:</i> Disparity map from the SGM algorithm without sub-pixel estimation. <i>Right:</i> Disparity map from the SGM algorithm with sub-pixel estimation.
@@ -453,7 +453,7 @@ def _aggregate_costs(self, cost_volume):
         </p>
         <figure>
             <div class="image-container">
-                <img class="img-450" src="stereo-reconstruction/subpixel_levels.png" alt="Comparision of reconstructed point clouds with subpixel estimation and without subpixel estimation."/>
+                <img class="img-450" src="stereo-reconstruction/subpixel_levels.jpg" alt="Comparision of reconstructed point clouds with subpixel estimation and without subpixel estimation."/>
             </div>
             <figcaption>
                 <i>Left:</i> Point cloud reconstruction without sub-pixel estimation. The point cloud has clearly visible levels, caused by the discrete integer values in the disparity map. <i>Right:</i> Point cloud reconstruction with sub-pixel estimation. The point cloud is smooth, and objects like the mask appear as a continuous surface.
@@ -508,7 +508,7 @@ def _aggregate_costs(self, cost_volume):
         </p>
         <figure>
             <div class="image-container">
-                <img class="img-450" src="stereo-reconstruction/final_result.png" alt="Final results of the reconstruction."/>
+                <img class="img-450" src="stereo-reconstruction/final_result.jpg" alt="Final results of the reconstruction."/>
             </div>
             <figcaption>
                 <i>Left:</i> Reconstructed point cloud using the block matching algorithm. Outliers in the point cloud are clearly visible. <i>Right:</i> Reconstructed point cloud using the SGM algorithm. The SGM point cloud has significantly fewer outliers.
