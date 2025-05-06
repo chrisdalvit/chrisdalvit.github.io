@@ -31,22 +31,22 @@
 		<link href="./_app/immutable/assets/0.s4a-y5vk.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/4.DZnCGkyv.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/github-dark-dimmed.hAkRB6c5.css" rel="stylesheet">
-		<link href="./_app/immutable/assets/ArticleAbstract.B99gQJwy.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/ArticleAbstract.uSUQL8f-.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/GirdLayout.QSv4R-U8.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/References.BkdofCk6.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.DJra00rZ.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.De-UEQ17.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.ftFGp9fP.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.DPBQ0dNs.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.C5M0MhYW.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.yl4-Q9O-.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/4.DIlR8C4y.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.m9yzgf54.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.CgLdsW_i.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.DGHYbnoM.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.Du1vX9tt.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.le4CsI2z.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.aG5Sdna1.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/4.r8zk9-LI.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/c.BadMgOa7.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/github-dark-dimmed.D89nmFLe.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/github-dark-dimmed.DYBtBLw-.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/spread.CgU5AtxT.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/ArticleAbstract.BdCV3YRQ.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/GirdLayout.DLCS1YDq.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/References.BLUW8h8I.js"><!-- HEAD_svelte-dmwksh_START --><script type="application/ld+json" data-svelte-h="svelte-1b5ea9x">{
+		<link rel="modulepreload" href="./_app/immutable/chunks/ArticleAbstract.DHCWZD88.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/GirdLayout.D28yB-98.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/References.CNSivLqG.js"><!-- HEAD_svelte-dmwksh_START --><script type="application/ld+json" data-svelte-h="svelte-1b5ea9x">{
           "@context": "http://schema.org",
           "@type": "BlogPosting",
           "headline": "Efficient Matrix Transpose",
@@ -63,7 +63,7 @@
     </script><meta name="keywords" content="Matrix transpose, Math, Performance benchmarking, C, Valgrind, GCC"><!-- HEAD_svelte-dmwksh_END -->
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  <div class="container svelte-1c0zvtr"><nav class="svelte-1c0zvtr" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1c0zvtr">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1c0zvtr">About</a></nav>   <div class="frame svelte-q8kqk1"> <div></div>  <div class="article svelte-1cf99y2" slot="center"><h1 class="svelte-1cf99y2">Efficient Matrix Transpose</h1> <p class="article-date svelte-1cf99y2">19. November 2024</p> <p class="svelte-uf7wis">In this blog post, we are going to implement and benchmark different in-place algorithms for transposing square matrices. The goal is to optimize the algorithms with respect to speed and throughput, taking into account cache behavior. First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results. The complete project is available on <a href="https://github.com/chrisdalvit/efficient-matrix-transpose" target="_blank" data-svelte-h="svelte-hdnex">GitHub</a>. In <a href="/gpu-matrix-transpose" target="_blank" data-svelte-h="svelte-z2qjb0">another project</a> I parallelized matrix transpose algorithms for GPU&#39;s with CUDA. Feel free to check it out and contact me if you have any questions or comments. </p> <div><h3 id="the-problem" class="section-title svelte-jv16uh">The Problem</h3> <p>Before we dive into the algorithms, let me first recall a little bit of theory and describe why the implementation of matrix transpose is challenging. So mathematically speaking, if we have a matrix  <span style="display: none;">A \in \mathbb{R}^{n \times m}</span>  <span></span>, the transpose of the matrix  <span style="display: none;">A^T \in \mathbb{R}^{m \times n}</span>  <span></span> is defined as</p>  <span style="display: none;">A^T_{ij} = A_{ji}</span>  <span></span> <p>So all entries are swapped along the matrix diagonal. For simplicity, I will assume that matrices have dimensions of  <span style="display: none;">2^N</span>  <span></span> for  <span style="display: none;">N \in \mathbb{N}</span>  <span></span>. As a result, the implemented algorithms don&#39;t need to accommodate changes in the output matrix&#39;s shape. I also assume that the matrices are stored and accessed in a row-major memory layout. All considered algorithms are in-place, so no new memory is allocated.</p> <p>While implementing an algorithm that computes the transpose of a matrix is straightforward, coming up with an efficient implementation is quite tricky. In general, leveraging spatial locality (accessing elements that are close by in memory) and temporal locality (accessing the same element throughout different time steps) can improve efficiency. Because each element of the matrix is accessed only once, temporal locality cannot be exploited for computing the transposed matrix <span class="citation-container svelte-zlp1p9"><div class="info-card svelte-zlp1p9">&quot;Cache-efficient matrix transposition&quot;<br> Siddhartha Chatterjee et al, 2000</div> <a href="https://www.cse.iitd.ac.in/~ssen/conf/hpca.pdf" target="_blank" class="svelte-zlp1p9">[1]</a> </span>, so spatial locality becomes the only source for improvement. The issue with leveraging spatial locality in matrix transposition is that data is accessed along rows but written along columns, potentially leading to poor cache performance. Algorithms that respect spatial locality in their memory access pattern can benefit from quicker access to cached data.</p> <figure data-svelte-h="svelte-uvisaw"><div class="image-container svelte-11budfn"><img src="efficient-matrix-transpose/cache_graphic.png" alt="Cache behavior graphic" class="svelte-11budfn"></div> <figcaption class="svelte-11budfn">Data is accessed along rows. After accessing the second element, the first row (yellow part) is loaded into cache. For writing the second element, the second row needs to be loaded into cache. For writing the third element, the third row etc. Therefore, there is no exploitation of spatial locality.</figcaption></figure> </div> <div><h3 id="algorithms" class="section-title svelte-jv16uh">Algorithms</h3> <p data-svelte-h="svelte-15ai6q7">Let&#39;s take a look at three different algorithms for in-place matrix transposition. The first implementation can be directly inferred from the mathematical definition</p>  <pre data-language="c" class=" svelte-1w9vok"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-comment">/*
+		<div style="display: contents">  <div class="container svelte-1c0zvtr"><nav class="svelte-1c0zvtr" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1c0zvtr">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1c0zvtr">About</a></nav>   <div class="frame svelte-q8kqk1"> <div></div>  <div class="article svelte-1tpbl3f" slot="center"><h1 class="svelte-1tpbl3f">Efficient Matrix Transpose</h1> <p class="article-date svelte-1tpbl3f">19. November 2024</p> <p class="svelte-uf7wis">In this blog post, we are going to implement and benchmark different in-place algorithms for transposing square matrices. The goal is to optimize the algorithms with respect to speed and throughput, taking into account cache behavior. First I describe the problem, then we look at the algorithm implementation and finally I present my benchmarking results. The complete project is available on <a href="https://github.com/chrisdalvit/efficient-matrix-transpose" target="_blank" data-svelte-h="svelte-hdnex">GitHub</a>. In <a href="/gpu-matrix-transpose" target="_blank" data-svelte-h="svelte-z2qjb0">another project</a> I parallelized matrix transpose algorithms for GPU&#39;s with CUDA. Feel free to check it out and contact me if you have any questions or comments. </p> <div><h3 id="the-problem" class="section-title svelte-jv16uh">The Problem</h3> <p>Before we dive into the algorithms, let me first recall a little bit of theory and describe why the implementation of matrix transpose is challenging. So mathematically speaking, if we have a matrix  <span style="display: none;">A \in \mathbb{R}^{n \times m}</span>  <span></span>, the transpose of the matrix  <span style="display: none;">A^T \in \mathbb{R}^{m \times n}</span>  <span></span> is defined as</p>  <span style="display: none;">A^T_{ij} = A_{ji}</span>  <span></span> <p>So all entries are swapped along the matrix diagonal. For simplicity, I will assume that matrices have dimensions of  <span style="display: none;">2^N</span>  <span></span> for  <span style="display: none;">N \in \mathbb{N}</span>  <span></span>. As a result, the implemented algorithms don&#39;t need to accommodate changes in the output matrix&#39;s shape. I also assume that the matrices are stored and accessed in a row-major memory layout. All considered algorithms are in-place, so no new memory is allocated.</p> <p>While implementing an algorithm that computes the transpose of a matrix is straightforward, coming up with an efficient implementation is quite tricky. In general, leveraging spatial locality (accessing elements that are close by in memory) and temporal locality (accessing the same element throughout different time steps) can improve efficiency. Because each element of the matrix is accessed only once, temporal locality cannot be exploited for computing the transposed matrix <span class="citation-container svelte-zlp1p9"><div class="info-card svelte-zlp1p9">&quot;Cache-efficient matrix transposition&quot;<br> Siddhartha Chatterjee et al, 2000</div> <a href="https://www.cse.iitd.ac.in/~ssen/conf/hpca.pdf" target="_blank" class="svelte-zlp1p9">[1]</a> </span>, so spatial locality becomes the only source for improvement. The issue with leveraging spatial locality in matrix transposition is that data is accessed along rows but written along columns, potentially leading to poor cache performance. Algorithms that respect spatial locality in their memory access pattern can benefit from quicker access to cached data.</p> <figure data-svelte-h="svelte-uvisaw"><div class="image-container svelte-11budfn"><img src="efficient-matrix-transpose/cache_graphic.png" alt="Cache behavior graphic" class="svelte-11budfn"></div> <figcaption class="svelte-11budfn">Data is accessed along rows. After accessing the second element, the first row (yellow part) is loaded into cache. For writing the second element, the second row needs to be loaded into cache. For writing the third element, the third row etc. Therefore, there is no exploitation of spatial locality.</figcaption></figure> </div> <div><h3 id="algorithms" class="section-title svelte-jv16uh">Algorithms</h3> <p data-svelte-h="svelte-15ai6q7">Let&#39;s take a look at three different algorithms for in-place matrix transposition. The first implementation can be directly inferred from the mathematical definition</p>  <pre data-language="c" class=" svelte-1w9vok"><code class="hljs"><!-- HTML_TAG_START --><span class="hljs-comment">/*
     params:
         size: Size of matrix
         mat: Matrix to transpose
@@ -137,7 +137,7 @@
 			
 			<script>
 				{
-					__sveltekit_1tk8liw = {
+					__sveltekit_a9w7hs = {
 						base: new URL(".", location).pathname.slice(0, -1)
 					};
 
@@ -146,8 +146,8 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.DJra00rZ.js"),
-						import("./_app/immutable/entry/app.DPBQ0dNs.js")
+						import("./_app/immutable/entry/start.m9yzgf54.js"),
+						import("./_app/immutable/entry/app.Du1vX9tt.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 4],
