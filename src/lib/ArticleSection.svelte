@@ -21,6 +21,7 @@
         font-style: normal;
         text-align: justify;
         line-height: 1.7rem;
+        hyphens: auto;
     }
 
     :global(figure) {

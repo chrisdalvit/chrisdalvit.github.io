@@ -32,5 +32,7 @@
         display: flex;
         justify-content: end;
         justify-self: center;
+        position: sticky;
+        top: 0;
     }
 </style>
