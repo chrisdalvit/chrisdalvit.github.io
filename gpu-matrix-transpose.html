@@ -34,20 +34,20 @@
 		<link href="./_app/immutable/assets/ArticleAbstract.D6UXQ1WQ.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/GirdLayout.BuSE2hRv.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/References.BkdofCk6.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.CwJtTfRk.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.BodtlI5U.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.CHp9NyWZ.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.DNxFBYOm.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.BrNB4lHp.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.V2raFevO.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.DHQFkUJi.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.YFx5OGdY.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.DdAuqbXA.js">
 		<link rel="modulepreload" href="./_app/immutable/nodes/0.D0rkAACk.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/5.BTDMKd6r.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/5.CRqXfDT-.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/c.BadMgOa7.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/github-dark-dimmed.6chbtOu_.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/spread.CgU5AtxT.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/ArticleAbstract.DMqYJYUZ.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/GirdLayout.C3snC1nN.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/References.D7lmBeiU.js"><!-- HEAD_svelte-on4e17_START --><script type="application/ld+json" data-svelte-h="svelte-1gprjrw">{
+		<link rel="modulepreload" href="./_app/immutable/chunks/References.D7lmBeiU.js"><!-- HEAD_svelte-1i99qaj_START --><script type="application/ld+json" data-svelte-h="svelte-nwuyaw">{
           "@context": "http://schema.org",
           "@type": "BlogPosting",
           "headline": "GPU Matrix Transpose",
@@ -58,10 +58,10 @@
           },
           "datePublished": "2024-11-19",
           "dateModified": "2025-04-01",
-          "description": "Implementation and benchmarking of parallelized matrix transpose on GPU's with CUDA."
+          "description": "Implementation and benchmarking of parallelized matrix transpose on GPU's with CUDA.",
           "mainEntityOfPage": "https://chrisdalvit.github.io/gpu-matrix-transpose"
         }
-    </script><meta name="keywords" content="Matrix transpose, Math, Performance benchmarking, C, GPU, Graphic Processing Unit, CUDA, Nvidia"><!-- HEAD_svelte-on4e17_END -->
+    </script><meta name="keywords" content="Matrix transpose, Math, Performance benchmarking, C, GPU, Graphic Processing Unit, CUDA, Nvidia"><!-- HEAD_svelte-1i99qaj_END -->
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">  <div class="container svelte-1sc44li"><nav class="svelte-1sc44li" data-svelte-h="svelte-1a6kb85"><a href="/" data-sveltekit-reload class="svelte-1sc44li">Home</a> <a href="/about" data-sveltekit-reload class="svelte-1sc44li">About</a></nav>    <div class="frame svelte-1gpqgdk"> <div></div>  <div class="article svelte-1tpbl3f" slot="center"><h1 class="svelte-1tpbl3f">GPU Matrix Transpose</h1> <p class="article-date svelte-1tpbl3f">19. November 2024</p> <p class="svelte-uf7wis">In one of my <a href="/efficient-matrix-transpose" target="_blank" data-svelte-h="svelte-1v5ad0d">previous blog posts</a> I analyzed the performance of different matrix transpose algorithms on the CPU. In this blog post, we are going to implement and benchmark two matrix transpose algorithms on the Graphics Processing Unit (GPU) using CUDA. The goal is to optimize the algorithms with respect to speed and throughput. 
@@ -110,7 +110,7 @@ __global__ <span class="hljs-type">void</span> <span class="hljs-title function_
 			
 			<script>
 				{
-					__sveltekit_1rpt01n = {
+					__sveltekit_2set = {
 						base: new URL(".", location).pathname.slice(0, -1)
 					};
 
@@ -119,8 +119,8 @@ __global__ <span class="hljs-type">void</span> <span class="hljs-title function_
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.CwJtTfRk.js"),
-						import("./_app/immutable/entry/app.DHQFkUJi.js")
+						import("./_app/immutable/entry/start.CHp9NyWZ.js"),
+						import("./_app/immutable/entry/app.YFx5OGdY.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 5],
