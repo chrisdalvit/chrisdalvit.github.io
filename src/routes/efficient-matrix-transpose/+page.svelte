@@ -11,7 +11,7 @@
           },
           "datePublished": "2024-11-19",
           "dateModified": "2025-04-01",
-          "description": "Implementation and benchmarking matrix transpose on CPU's in C."
+          "description": "Implementation and benchmarking matrix transpose on CPU's in C.",
           "mainEntityOfPage": "https://chrisdalvit.github.io/efficient-matrix-transpose"
         }
     </script>

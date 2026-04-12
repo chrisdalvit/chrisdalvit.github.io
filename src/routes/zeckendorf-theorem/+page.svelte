@@ -11,7 +11,7 @@
       },
       "datePublished": "2025-04-01",
       "dateModified": "2025-04-01",
-      "description": "Verified formalization of Zeckendorf's theorem in Isabelle/HOL. First the proof af the Zeckendorf theorem is presented. Then the verified formalization of the Zeckendorf theorem in Isabelle/HOL is explained. The formalization is published in the Archive of Formal Proofs."
+      "description": "Verified formalization of Zeckendorf's theorem in Isabelle/HOL. First the proof af the Zeckendorf theorem is presented. Then the verified formalization of the Zeckendorf theorem in Isabelle/HOL is explained. The formalization is published in the Archive of Formal Proofs.",
       "mainEntityOfPage": "https://chrisdalvit.github.io/zeckendorf-theorem"
     }
   </script>

@@ -11,7 +11,7 @@
           },
           "datePublished": "2024-11-16",
           "dateModified": "2025-04-01",
-          "description": "Step-by-step tutorial on how to build a real-time Sudoku solver with Python, OpenCV and PyTorch. Every processing step of a simple real-time Sudoku solver is explained in detail."
+          "description": "Step-by-step tutorial on how to build a real-time Sudoku solver with Python, OpenCV and PyTorch. Every processing step of a simple real-time Sudoku solver is explained in detail.",
           "mainEntityOfPage": "https://chrisdalvit.github.io/sudoku-solver"
         }
     </script>

@@ -11,7 +11,7 @@
           },
           "datePublished": "2024-11-19",
           "dateModified": "2025-04-01",
-          "description": "Implementation and benchmarking of parallelized matrix transpose on GPU's with CUDA."
+          "description": "Implementation and benchmarking of parallelized matrix transpose on GPU's with CUDA.",
           "mainEntityOfPage": "https://chrisdalvit.github.io/gpu-matrix-transpose"
         }
     </script>
